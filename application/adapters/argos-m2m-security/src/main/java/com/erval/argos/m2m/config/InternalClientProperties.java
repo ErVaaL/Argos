@@ -5,7 +5,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import java.util.List;
 import java.util.Map;
 
-@ConfigurationProperties(prefix = "internal")
+@ConfigurationProperties(prefix = "internal.oauth")
 public record InternalClientProperties(
     Map<String, ClientProps> clients
 ) {

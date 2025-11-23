@@ -1,7 +1,6 @@
 package com.erval.argos.api.config;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
@@ -10,10 +9,10 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
-import org.springframework.security.oauth2.jwt.JwtValidators;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
+import org.springframework.security.oauth2.server.resource.web.DefaultBearerTokenResolver;
 import org.springframework.security.web.SecurityFilterChain;
 
 import java.security.KeyPair;
@@ -32,27 +31,26 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        var resolver = new DefaultBearerTokenResolver();
+        resolver.setBearerTokenHeaderName("Secured-Authorization");
         http
             .csrf(AbstractHttpConfigurer::disable)
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/internal/oauth/**").permitAll()
                 .requestMatchers("/graphql").permitAll()
                 .anyRequest().authenticated())
-            .httpBasic(Customizer.withDefaults())
-            .formLogin(AbstractHttpConfigurer::disable)
-            .oauth2ResourceServer(oauth2 -> oauth2.jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthConverter())));
+            .oauth2ResourceServer(oauth -> oauth
+                .bearerTokenResolver(resolver)
+                .jwt(jwt -> jwt
+                    .decoder(jwtDecoder())
+                    .jwtAuthenticationConverter(jwtAuthConverter())
+                ));
         return http.build();
     }
 
     @Bean
-    public JwtDecoder jwtDecoder(
-        @Value("${internal.oauth.server.issuer}") String issuer
-    ) {
-        NimbusJwtDecoder decoder = NimbusJwtDecoder
-            .withPublicKey((RSAPublicKey) internalKeyPair.getPublic())
-            .build();
-        decoder.setJwtValidator(JwtValidators.createDefaultWithIssuer(issuer));
-        return decoder;
+    public JwtDecoder jwtDecoder() {
+        return NimbusJwtDecoder.withPublicKey((RSAPublicKey) internalKeyPair.getPublic()).build();
     }
 
     @Bean
