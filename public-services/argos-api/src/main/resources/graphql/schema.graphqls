@@ -1,3 +1,5 @@
+scalar Long
+
 enum DeviceType {
   TEMP
   HUMIDITY
@@ -30,6 +32,7 @@ type Measurement {
   deviceId: ID!
   type: MeasurementType!
   value: Float!
+  sequenceNumber: Long
   timestamp: String!
 }
 

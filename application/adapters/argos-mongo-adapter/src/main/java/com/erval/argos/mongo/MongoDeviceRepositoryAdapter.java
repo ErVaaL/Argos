@@ -3,7 +3,7 @@ package com.erval.argos.mongo;
 import com.erval.argos.core.application.PageRequest;
 import com.erval.argos.core.application.PageResult;
 import com.erval.argos.core.application.SortDirection;
-import com.erval.argos.core.application.port.in.queries.DeviceQueryUseCase.DeviceFilter;
+import com.erval.argos.core.application.port.in.queries.DeviceQueryUseCase;
 import com.erval.argos.core.application.port.out.DeviceRepositoryPort;
 import com.erval.argos.core.domain.device.Device;
 import com.erval.argos.mongo.model.DeviceDocument;
@@ -77,7 +77,7 @@ public class MongoDeviceRepositoryAdapter implements DeviceRepositoryPort {
      * @return a page result with content and total count
      */
     @Override
-    public PageResult<Device> findByFilter(DeviceFilter filter, PageRequest pageRequest) {
+    public PageResult<Device> findByFilter(DeviceQueryUseCase.DeviceFilter filter, PageRequest pageRequest) {
         Query query = new Query();
 
         if (filter != null) {

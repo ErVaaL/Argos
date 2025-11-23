@@ -2,9 +2,12 @@ package com.erval.argos.api.controllers;
 
 import java.util.Set;
 
+import com.erval.argos.core.application.port.in.queries.DeviceQueryUseCase;
+import com.erval.argos.core.domain.device.Device;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 
 import com.erval.argos.api.dto.CreateDeviceInput;
@@ -17,9 +20,7 @@ import com.erval.argos.core.application.PageRequest;
 import com.erval.argos.core.application.PageResult;
 import com.erval.argos.core.application.port.in.commands.DeviceCommandUseCase;
 import com.erval.argos.core.application.port.in.commands.MeasurementCommandUseCase;
-import com.erval.argos.core.application.port.in.queries.DeviceQueryUseCase;
 import com.erval.argos.core.application.port.in.queries.MeasurementQueryUseCase;
-import com.erval.argos.core.domain.device.Device;
 import com.erval.argos.core.domain.measurement.Measurement;
 
 import lombok.RequiredArgsConstructor;
@@ -53,22 +54,26 @@ public class DeviceGraphqlController {
     }
 
     @MutationMapping
+    @PreAuthorize("isAuthenticated()")
     public Device createDevice(@Argument("input") CreateDeviceInput input) {
         return deviceCommandUseCase.createDevice(GraphqlMapper.toCreateDeviceCommand(input));
     }
 
     @MutationMapping
+    @PreAuthorize("isAuthenticated()")
     public Device updateDevice(@Argument("id") String id, @Argument("input") UpdateDeviceInput input) {
         return deviceCommandUseCase.updateDevice(id, GraphqlMapper.toUpdateDeviceCommand(input));
     }
 
     @MutationMapping
+    @PreAuthorize("isAuthenticated()")
     public Boolean deleteDevice(@Argument("id") String id) {
         deviceCommandUseCase.deleteDevice(id);
         return true;
     }
 
     @MutationMapping
+    @PreAuthorize("isAuthenticated()")
     public Measurement createMeasurement(@Argument("input") CreateMeasurementInput input) {
         return measurementCommandUseCase.createMeasurement(GraphqlMapper.toCreateMeasurementCommand(input));
     }

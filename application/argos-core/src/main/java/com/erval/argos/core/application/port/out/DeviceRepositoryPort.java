@@ -4,7 +4,7 @@ import java.util.Optional;
 
 import com.erval.argos.core.application.PageRequest;
 import com.erval.argos.core.application.PageResult;
-import com.erval.argos.core.application.port.in.queries.DeviceQueryUseCase.DeviceFilter;
+import com.erval.argos.core.application.port.in.queries.DeviceQueryUseCase;
 import com.erval.argos.core.domain.device.Device;
 
 /**
@@ -20,5 +20,5 @@ public interface DeviceRepositoryPort {
 
     void deleteById(String id);
 
-    PageResult<Device> findByFilter(DeviceFilter filter, PageRequest pageRequest);
+    PageResult<Device> findByFilter(DeviceQueryUseCase.DeviceFilter filter, PageRequest pageRequest);
 }

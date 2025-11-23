@@ -6,6 +6,7 @@ import com.erval.argos.core.application.PageRequest;
 import com.erval.argos.core.application.PageResult;
 import com.erval.argos.core.application.port.in.commands.DeviceCommandUseCase;
 import com.erval.argos.core.application.port.in.queries.DeviceQueryUseCase;
+import com.erval.argos.core.application.port.in.queries.DeviceQueryUseCase.DeviceFilter;
 import com.erval.argos.core.application.port.out.DeviceRepositoryPort;
 import com.erval.argos.core.domain.device.Device;
 import com.erval.argos.core.domain.device.DeviceType;
@@ -119,4 +120,5 @@ public record DeviceService(DeviceRepositoryPort repo) implements DeviceCommandU
     public PageResult<Device> findDevices(DeviceFilter filter, PageRequest pageRequest) {
         return repo.findByFilter(filter, pageRequest);
     }
+
 }
