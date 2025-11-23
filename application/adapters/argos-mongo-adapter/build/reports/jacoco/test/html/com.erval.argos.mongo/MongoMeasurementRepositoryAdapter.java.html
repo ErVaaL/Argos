@@ -72,14 +72,14 @@ public class MongoMeasurementRepositoryAdapter implements MeasurementRepositoryP
 <span class="fc" id="L72">                query.addCriteria(Criteria.where(&quot;type&quot;).is(filter.type()));</span>
             }
 <span class="fc" id="L74">            Criteria ts = null;</span>
-<span class="fc bfc" id="L75" title="All 2 branches covered.">            if (filter.from() != null) {</span>
-<span class="fc" id="L76">                ts = Criteria.where(&quot;timestamp&quot;).gte(filter.from());</span>
+<span class="pc bpc" id="L75" title="1 of 2 branches missed.">            if (filter.from() != null) {</span>
+<span class="nc" id="L76">                ts = Criteria.where(&quot;timestamp&quot;).gte(filter.from());</span>
             }
-<span class="fc bfc" id="L78" title="All 2 branches covered.">            if (filter.to() != null) {</span>
-<span class="pc bpc" id="L79" title="1 of 2 branches missed.">                ts = (ts == null ? Criteria.where(&quot;timestamp&quot;) : ts).lte(filter.to());</span>
+<span class="pc bpc" id="L78" title="1 of 2 branches missed.">            if (filter.to() != null) {</span>
+<span class="nc bnc" id="L79" title="All 2 branches missed.">                ts = (ts == null ? Criteria.where(&quot;timestamp&quot;) : ts).lte(filter.to());</span>
             }
-<span class="fc bfc" id="L81" title="All 2 branches covered.">            if (ts != null) {</span>
-<span class="fc" id="L82">                query.addCriteria(ts);</span>
+<span class="pc bpc" id="L81" title="1 of 2 branches missed.">            if (ts != null) {</span>
+<span class="nc" id="L82">                query.addCriteria(ts);</span>
             }
         }
 
@@ -127,8 +127,8 @@ public class MongoMeasurementRepositoryAdapter implements MeasurementRepositoryP
      * @param id measurement identifier
      */
     public void deleteById(String id) {
-<span class="fc" id="L130">        repo.deleteById(id);</span>
-<span class="fc" id="L131">    }</span>
+<span class="nc" id="L130">        repo.deleteById(id);</span>
+<span class="nc" id="L131">    }</span>
 
     /**
      * Retrieves all measurements with paging and sorting.
@@ -142,7 +142,7 @@ public class MongoMeasurementRepositoryAdapter implements MeasurementRepositoryP
 <span class="fc" id="L142">                pageRequest.page(),</span>
 <span class="fc" id="L143">                pageRequest.size(),</span>
 <span class="pc bpc" id="L144" title="1 of 2 branches missed.">                pageRequest.direction() == SortDirection.ASC ? Sort.Direction.ASC : Sort.Direction.DESC,</span>
-<span class="pc bpc" id="L145" title="1 of 4 branches missed.">                pageRequest.sortBy() != null &amp;&amp; !pageRequest.sortBy().isBlank() ? pageRequest.sortBy() : &quot;timestamp&quot;);</span>
+<span class="pc bpc" id="L145" title="2 of 4 branches missed.">                pageRequest.sortBy() != null &amp;&amp; !pageRequest.sortBy().isBlank() ? pageRequest.sortBy() : &quot;timestamp&quot;);</span>
 
 <span class="fc" id="L147">        Page&lt;MeasurementDocument&gt; page = repo.findAll(pageable);</span>
 <span class="fc" id="L148">        List&lt;Measurement&gt; content = page.getContent().stream()</span>
@@ -164,8 +164,16 @@ public class MongoMeasurementRepositoryAdapter implements MeasurementRepositoryP
      * @return optional measurement if found
      */
     public Optional&lt;Measurement&gt; findById(String id) {
-<span class="fc" id="L167">        return repo.findById(id).map(MeasurementDocument::toDomain);</span>
+<span class="nc" id="L167">        return repo.findById(id).map(MeasurementDocument::toDomain);</span>
     }
+
+    /**
+     * Deletes all measurements in the repository.
+     */
+    @Override
+    public void deleteAll() {
+<span class="fc" id="L175">        repo.deleteAll();</span>
+<span class="fc" id="L176">    }</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

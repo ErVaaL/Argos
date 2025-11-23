@@ -48,6 +48,14 @@ public class MongoDeviceRepositoryAdapter implements DeviceRepositoryPort {
     }
 
     /**
+     * Deletes all devices.
+     */
+    @Override
+    public void deleteAll() {
+        repo.deleteAll();
+    }
+
+    /**
      * Retrieves all devices using paging and sorting.
      *
      * @param pageRequest paging and sorting instructions

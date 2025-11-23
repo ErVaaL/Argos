@@ -10,6 +10,7 @@ repositories {
 
 dependencies {
     implementation(project(":application:argos-core"))
+    implementation(project(":application:argos-application"))
 
     implementation("org.springframework.boot:spring-boot-starter-data-mongodb:4.0.0")
 

@@ -43,6 +43,8 @@ public interface DeviceRepositoryPort {
      */
     void deleteById(String id);
 
+    void deleteAll();
+
     /**
      * Finds devices matching the provided filter with paging.
      *

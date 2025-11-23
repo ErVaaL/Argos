@@ -167,4 +167,12 @@ public class MongoMeasurementRepositoryAdapter implements MeasurementRepositoryP
         return repo.findById(id).map(MeasurementDocument::toDomain);
     }
 
+    /**
+     * Deletes all measurements in the repository.
+     */
+    @Override
+    public void deleteAll() {
+        repo.deleteAll();
+    }
+
 }

@@ -58,4 +58,6 @@ public interface MeasurementRepositoryPort {
      * @param deviceId device identifier whose measurements should be removed
      */
     void deleteByDeviceId(String deviceId);
+
+    void deleteAll();
 }
