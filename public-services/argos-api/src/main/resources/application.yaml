@@ -1,0 +1,12 @@
+spring:
+  data:
+    mongodb:
+      uri: todo
+
+  graphql:
+    path: /graphql
+    schema:
+      locations: classpath:graphql/
+
+server:
+  port: 8080
