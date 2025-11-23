@@ -10,6 +10,9 @@ repositories {
 
 dependencies {
     implementation(project(":application:argos-core"))
+
+    testImplementation("org.springframework.boot:spring-boot-starter-test:4.0.0")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
 tasks.test {

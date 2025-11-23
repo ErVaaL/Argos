@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DeviceCommandUseCase.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">argos-core</a> &gt; <a href="index.source.html" class="el_package">com.erval.argos.core.application.port.in.commands</a> &gt; <span class="el_source">DeviceCommandUseCase.java</span></div><h1>DeviceCommandUseCase.java</h1><pre class="source lang-java linenums">package com.erval.argos.core.application.port.in.commands;
+
+import com.erval.argos.core.domain.device.Device;
+import com.erval.argos.core.domain.device.DeviceType;
+
+/**
+ * Use cases related to creating, updating and deleting devices.
+ * &lt;p&gt;
+ * Typical flow:
+ * &lt;ul&gt;
+ * &lt;li&gt;validate incoming command payloads&lt;/li&gt;
+ * &lt;li&gt;persist device aggregates via output ports&lt;/li&gt;
+ * &lt;li&gt;signal errors when invariants are broken&lt;/li&gt;
+ * &lt;/ul&gt;
+ */
+public interface DeviceCommandUseCase {
+
+    /**
+     * Creates a new device.
+     *
+     * @param cmd command payload
+     * @return persisted device
+     */
+    Device createDevice(CreateDeviceCommand cmd);
+
+    /**
+     * Updates an existing device.
+     *
+     * @param id  target device id
+     * @param cmd partial update payload
+     * @return updated device
+     */
+    Device updateDevice(String id, UpdateDeviceCommand cmd);
+
+    /**
+     * Deletes a device by id.
+     *
+     * @param id device identifier
+     */
+    void deleteDevice(String id);
+
+    /**
+     * Command used for device creation.
+     * &lt;p&gt;
+     * Expected data:
+     * &lt;ul&gt;
+     * &lt;li&gt;{@code name}: human-friendly label&lt;/li&gt;
+     * &lt;li&gt;{@code building}/{@code room}: physical location&lt;/li&gt;
+     * &lt;/ul&gt;
+     *
+     * @param name     device name
+     * @param type     device type
+     * @param building building where the device is located
+     * @param room     room where the device is located
+     */
+<span class="fc" id="L56">    record CreateDeviceCommand(</span>
+            String name,
+            DeviceType type,
+            String building,
+            String room) {
+    }
+
+    /**
+     * Command used for device update.
+     * Fields may be null if they should not be changed.
+     * &lt;p&gt;
+     * Field behavior:
+     * &lt;ul&gt;
+     * &lt;li&gt;non-null values overwrite stored values&lt;/li&gt;
+     * &lt;li&gt;null values keep the current data&lt;/li&gt;
+     * &lt;/ul&gt;
+     *
+     * @param name     device name
+     * @param type     device type
+     * @param building building where the device is located
+     * @param room     room where the device is located
+     * @param active   whether the device is active
+     */
+<span class="fc" id="L79">    record UpdateDeviceCommand(</span>
+            String name,
+            DeviceType type,
+            String building,
+            String room,
+            Boolean active) {
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

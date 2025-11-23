@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.erval.argos.core.domain.device.DeviceRecordTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2025-11-23T20:30:25.087Z" hostname="erval-FoxMain" time="0.006">
+  <properties/>
+  <testcase name="storesFieldsAndConfig()" classname="com.erval.argos.core.domain.device.DeviceRecordTest" time="0.006"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
