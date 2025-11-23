@@ -1,7 +1,10 @@
 package com.erval.argos.mongo.repositories;
 
+import java.util.List;
+
 import com.erval.argos.mongo.model.MeasurementDocument;
 import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -13,4 +16,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface MeasurementMongoRepository extends MongoRepository<MeasurementDocument, String> {
 
+    @Query(value = "{ 'deviceId': ?0 }", fields = "{ 'deviceId': 1, 'timestamp': 1, 'value': 1, 'type': 1 }")
+    List<MeasurementSummary> findProjectedByDeviceId(String deviceId);
 }

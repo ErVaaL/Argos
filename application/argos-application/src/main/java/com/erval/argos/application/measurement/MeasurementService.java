@@ -45,10 +45,13 @@ public record MeasurementService(MeasurementRepositoryPort measurementRepo, Devi
                 : Instant.now();
 
         Measurement measurement = new Measurement(
+                null,
                 cmd.deviceId(),
                 cmd.type(),
                 cmd.value(),
-                timestamp);
+                0,
+                timestamp,
+                null);
 
         return measurementRepo().save(measurement);
     }

@@ -16,6 +16,8 @@ public interface DeviceRepositoryPort {
 
     Optional<Device> findById(String id);
 
+    PageResult<Device> findAll(PageRequest pageRequest);
+
     void deleteById(String id);
 
     PageResult<Device> findByFilter(DeviceFilter filter, PageRequest pageRequest);

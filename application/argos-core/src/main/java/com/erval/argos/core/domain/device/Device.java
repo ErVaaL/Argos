@@ -17,5 +17,5 @@ package com.erval.argos.core.domain.device;
  * @param room     room identifier within the building, e.g. "101"
  * @param active   whether the device is currently active
  */
-public record Device(String id, String name, DeviceType type, String building, String room, boolean active) {
+public record Device(String id, String name, DeviceType type, String building, String room, boolean active, DeviceConfig config) {
 }

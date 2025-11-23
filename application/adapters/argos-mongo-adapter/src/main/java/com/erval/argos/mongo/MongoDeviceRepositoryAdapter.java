@@ -9,6 +9,8 @@ import com.erval.argos.core.domain.device.Device;
 import com.erval.argos.mongo.model.DeviceDocument;
 import com.erval.argos.mongo.repositories.DeviceMongoRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -43,6 +45,22 @@ public class MongoDeviceRepositoryAdapter implements DeviceRepositoryPort {
     @Override
     public void deleteById(String id) {
         repo.deleteById(id);
+    }
+
+    @Override
+    public PageResult<Device> findAll(PageRequest pageRequest) {
+        Pageable pageable = org.springframework.data.domain.PageRequest.of(
+                pageRequest.page(),
+                pageRequest.size(),
+                pageRequest.direction() == SortDirection.ASC ? Sort.Direction.ASC : Sort.Direction.DESC,
+                pageRequest.sortBy() != null && !pageRequest.sortBy().isBlank() ? pageRequest.sortBy() : "name");
+
+        Page<DeviceDocument> page = repo.findAll(pageable);
+        List<Device> content = page.getContent().stream()
+                .map(DeviceDocument::toDomain)
+                .toList();
+
+        return new PageResult<>(content, page.getTotalElements(), page.getNumber(), page.getSize());
     }
 
     /**

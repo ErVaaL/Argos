@@ -1,6 +1,7 @@
 package com.erval.argos.mongo;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.erval.argos.core.application.PageRequest;
 import com.erval.argos.core.application.PageResult;
@@ -12,6 +13,8 @@ import com.erval.argos.mongo.model.MeasurementDocument;
 import com.erval.argos.mongo.repositories.MeasurementMongoRepository;
 
 import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -111,6 +114,36 @@ public class MongoMeasurementRepositoryAdapter implements MeasurementRepositoryP
     public Measurement save(Measurement measurement) {
         MeasurementDocument saved = repo.save(MeasurementDocument.fromDomain(measurement));
         return saved.toDomain();
+    }
+
+    @Override
+    public void deleteById(String id) {
+        repo.deleteById(id);
+    }
+
+    @Override
+    public PageResult<Measurement> findAll(PageRequest pageRequest) {
+        Pageable pageable = org.springframework.data.domain.PageRequest.of(
+                pageRequest.page(),
+                pageRequest.size(),
+                pageRequest.direction() == SortDirection.ASC ? Sort.Direction.ASC : Sort.Direction.DESC,
+                pageRequest.sortBy() != null && !pageRequest.sortBy().isBlank() ? pageRequest.sortBy() : "timestamp");
+
+        Page<MeasurementDocument> page = repo.findAll(pageable);
+        List<Measurement> content = page.getContent().stream()
+                .map(MeasurementDocument::toDomain)
+                .toList();
+
+        return new PageResult<>(
+                content,
+                page.getTotalElements(),
+                page.getNumber(),
+                page.getSize());
+    }
+
+    @Override
+    public Optional<Measurement> findById(String id) {
+        return repo.findById(id).map(MeasurementDocument::toDomain);
     }
 
 }

@@ -8,8 +8,8 @@ import com.erval.argos.core.application.port.in.commands.DeviceCommandUseCase;
 import com.erval.argos.core.application.port.in.queries.DeviceQueryUseCase;
 import com.erval.argos.core.application.port.out.DeviceRepositoryPort;
 import com.erval.argos.core.domain.device.Device;
-
 import com.erval.argos.core.domain.device.DeviceType;
+import com.erval.argos.core.domain.device.DeviceConfig;
 
 /**
  * Application service orchestrating device commands and queries.
@@ -45,7 +45,8 @@ public record DeviceService(DeviceRepositoryPort repo) implements DeviceCommandU
                 cmd.type(),
                 cmd.building(),
                 cmd.room(),
-                true);
+                true,
+                null);
 
         return repo.save(device);
     }
@@ -95,7 +96,8 @@ public record DeviceService(DeviceRepositoryPort repo) implements DeviceCommandU
                 type,
                 building,
                 room,
-                active);
+                active,
+                existing.config());
 
         return repo.save(updated);
     }
