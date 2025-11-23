@@ -3,7 +3,7 @@ spring:
         http:
             path: /graphql
     mongodb:
-        uri: mongodb://localhost:27017/argos?maxPoolSize=50&minPoolSize=5&maxIdleTimeMS=300000&socketTimeoutMS=10000&connectTimeoutMS=5000&serverSelectionTimeoutMS=5000&retryWrites=true
+        uri: mongodb://root:rootpass@localhost:27017/argos?authSource=admin&maxPoolSize=50&minPoolSize=5&maxIdleTimeMS=300000&socketTimeoutMS=10000&connectTimeoutMS=5000&serverSelectionTimeoutMS=5000&retryWrites=true
         auto-index-creation: true
 
 server:
