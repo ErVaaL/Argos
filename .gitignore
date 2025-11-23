@@ -1,0 +1,29 @@
+# IntelliJ
+.idea/
+*.iml
+*.iws
+out/
+bin/
+**/bin/
+
+# Eclipse
+.classpath
+.project
+.factorypath
+.settings/
+**/.settings/
+
+# Gradle
+/build/
+**/build/
+gradle-app.setting
+
+# Root Gradle cache
+.gradle/
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
