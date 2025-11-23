@@ -41,7 +41,7 @@
 </td>
 <td>
 <div class="infoBox" id="duration">
-<div class="counter">0.181s</div>
+<div class="counter">0.203s</div>
 <p>duration</p>
 </div>
 </td>
@@ -79,47 +79,47 @@
 </thead>
 <tr>
 <td class="success">deletesDeviceById()</td>
-<td class="success">0.014s</td>
+<td class="success">0.012s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">deletesMeasurementById()</td>
-<td class="success">0.013s</td>
+<td class="success">0.014s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">deletesMeasurementsByDeviceId()</td>
-<td class="success">0.019s</td>
-<td class="success">passed</td>
-</tr>
-<tr>
-<td class="success">filtersDevicesByBuildingAndActive()</td>
-<td class="success">0.018s</td>
-<td class="success">passed</td>
-</tr>
-<tr>
-<td class="success">filtersMeasurementsByDeviceAndType()</td>
 <td class="success">0.030s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
+<td class="success">filtersDevicesByBuildingAndActive()</td>
+<td class="success">0.021s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">filtersMeasurementsByDeviceAndType()</td>
+<td class="success">0.043s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
 <td class="success">filtersMeasurementsByTimeWindow()</td>
-<td class="success">0.015s</td>
+<td class="success">0.014s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">paginatesDevicesWithDefaultSort()</td>
-<td class="success">0.013s</td>
+<td class="success">0.012s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">paginatesMeasurementsWithDefaultSort()</td>
-<td class="success">0.016s</td>
+<td class="success">0.014s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">savesAndFindsDeviceById()</td>
-<td class="success">0.013s</td>
+<td class="success">0.012s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
@@ -129,7 +129,7 @@
 </tr>
 <tr>
 <td class="success">updatesDeviceFields()</td>
-<td class="success">0.019s</td>
+<td class="success">0.020s</td>
 <td class="success">passed</td>
 </tr>
 </table>
@@ -137,9 +137,9 @@
 <div class="tab">
 <h2>Standard output</h2>
 <span class="code">
-<pre>2025-11-23T22:59:18.008+01:00  INFO 195048 --- [    Test worker] tc.mongo:6.0.5                           : Creating container for image: mongo:6.0.5
-2025-11-23T22:59:18.073+01:00  INFO 195048 --- [    Test worker] tc.mongo:6.0.5                           : Container mongo:6.0.5 is starting: 60792417dd93d26dfef54cf91f8dfc2d7d3d2fd9489b4aa8e62169459c83755b
-2025-11-23T22:59:18.755+01:00  INFO 195048 --- [    Test worker] tc.mongo:6.0.5                           : Container mongo:6.0.5 started in PT0.747351855S
+<pre>2025-11-23T23:11:45.567+01:00  INFO 198631 --- [    Test worker] tc.mongo:6.0.5                           : Creating container for image: mongo:6.0.5
+2025-11-23T23:11:45.616+01:00  INFO 198631 --- [    Test worker] tc.mongo:6.0.5                           : Container mongo:6.0.5 is starting: a653879dfa8f1845ddebbd1cf9cb914823193a527a0b341d0558f7e7ff3b303c
+2025-11-23T23:11:46.339+01:00  INFO 198631 --- [    Test worker] tc.mongo:6.0.5                           : Container mongo:6.0.5 started in PT0.772484023S
 
   .   ____          _            __ _ _
  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
@@ -150,13 +150,13 @@
 
  :: Spring Boot ::                (v4.0.0)
 
-2025-11-23T22:59:19.998+01:00  INFO 195048 --- [    Test worker] .m.MongoRepositoryAdapterIntegrationTest : Starting MongoRepositoryAdapterIntegrationTest using Java 21.0.9 with PID 195048 (started by erval in /home/erval/projects/private/Argos/application/adapters/argos-mongo-adapter)
-2025-11-23T22:59:19.999+01:00  INFO 195048 --- [    Test worker] .m.MongoRepositoryAdapterIntegrationTest : No active profile set, falling back to 1 default profile: &quot;default&quot;
-2025-11-23T22:59:20.052+01:00  INFO 195048 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data MongoDB repositories in DEFAULT mode.
-2025-11-23T22:59:20.058+01:00  INFO 195048 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 4 ms. Found 2 MongoDB repository interfaces.
-2025-11-23T22:59:20.082+01:00  INFO 195048 --- [    Test worker] org.mongodb.driver.client                : MongoClient with metadata {&quot;driver&quot;: {&quot;name&quot;: &quot;mongo-java-driver|spring-boot|sync&quot;, &quot;version&quot;: &quot;5.6.1&quot;}, &quot;os&quot;: {&quot;type&quot;: &quot;Linux&quot;, &quot;name&quot;: &quot;Linux&quot;, &quot;architecture&quot;: &quot;amd64&quot;, &quot;version&quot;: &quot;6.17.8-zen1-1-zen&quot;}, &quot;platform&quot;: &quot;Java/Arch Linux/21.0.9+10&quot;} created with settings MongoClientSettings{readPreference=primary, writeConcern=WriteConcern{w=null, wTimeout=null ms, journal=null}, retryWrites=true, retryReads=true, readConcern=ReadConcern{level=null}, credential=null, transportSettings=null, commandListeners=[], codecRegistry=ProvidersCodecRegistry{codecProviders=[ValueCodecProvider{}, BsonValueCodecProvider{}, DBRefCodecProvider{}, DBObjectCodecProvider{}, DocumentCodecProvider{}, CollectionCodecProvider{}, IterableCodecProvider{}, MapCodecProvider{}, GeoJsonCodecProvider{}, GridFSFileCodecProvider{}, Jsr310CodecProvider{}, JsonObjectCodecProvider{}, BsonCodecProvider{}, com.mongodb.client.model.mql.ExpressionCodecProvider@5c1d1aa6, com.mongodb.Jep395RecordCodecProvider@6804a46a, com.mongodb.KotlinCodecProvider@3df3e1e9, EnumCodecProvider{}]}, loggerSettings=LoggerSettings{maxDocumentLength=1000}, clusterSettings={hosts=[localhost:27017], srvServiceName=mongodb, mode=SINGLE, requiredClusterType=UNKNOWN, requiredReplicaSetName='null', serverSelector='null', clusterListeners='[]', serverSelectionTimeout='30000 ms', localThreshold='15 ms'}, socketSettings=SocketSettings{connectTimeoutMS=10000, readTimeoutMS=0, receiveBufferSize=0, proxySettings=ProxySettings{host=null, port=null, username=null, password=null}}, heartbeatSocketSettings=SocketSettings{connectTimeoutMS=10000, readTimeoutMS=10000, receiveBufferSize=0, proxySettings=ProxySettings{host=null, port=null, username=null, password=null}}, connectionPoolSettings=ConnectionPoolSettings{maxSize=100, minSize=0, maxWaitTimeMS=120000, maxConnectionLifeTimeMS=0, maxConnectionIdleTimeMS=0, maintenanceInitialDelayMS=0, maintenanceFrequencyMS=60000, connectionPoolListeners=[], maxConnecting=2}, serverSettings=ServerSettings{heartbeatFrequencyMS=10000, minHeartbeatFrequencyMS=500, serverMonitoringMode=AUTO, serverListeners='[]', serverMonitorListeners='[]'}, sslSettings=SslSettings{enabled=false, invalidHostNameAllowed=false, context=null}, applicationName='null', compressorList=[], uuidRepresentation=UNSPECIFIED, serverApi=null, autoEncryptionSettings=null, dnsClient=null, inetAddressResolver=null, contextProvider=null, timeoutMS=null}
-2025-11-23T22:59:20.084+01:00  INFO 195048 --- [localhost:27017] org.mongodb.driver.cluster               : Monitor thread successfully connected to server with description ServerDescription{address=localhost:27017, type=STANDALONE, cryptd=false, state=CONNECTED, ok=true, minWireVersion=0, maxWireVersion=25, maxDocumentSize=16777216, logicalSessionTimeoutMinutes=30, roundTripTimeNanos=815758, minRoundTripTimeNanos=0}
-2025-11-23T22:59:20.130+01:00  INFO 195048 --- [    Test worker] .m.MongoRepositoryAdapterIntegrationTest : Started MongoRepositoryAdapterIntegrationTest in 0.158 seconds (process running for 9.269)
+2025-11-23T23:11:47.598+01:00  INFO 198631 --- [    Test worker] .m.MongoRepositoryAdapterIntegrationTest : Starting MongoRepositoryAdapterIntegrationTest using Java 21.0.9 with PID 198631 (started by erval in /home/erval/projects/private/Argos/application/adapters/argos-mongo-adapter)
+2025-11-23T23:11:47.598+01:00  INFO 198631 --- [    Test worker] .m.MongoRepositoryAdapterIntegrationTest : No active profile set, falling back to 1 default profile: &quot;default&quot;
+2025-11-23T23:11:47.648+01:00  INFO 198631 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data MongoDB repositories in DEFAULT mode.
+2025-11-23T23:11:47.654+01:00  INFO 198631 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 4 ms. Found 2 MongoDB repository interfaces.
+2025-11-23T23:11:47.678+01:00  INFO 198631 --- [    Test worker] org.mongodb.driver.client                : MongoClient with metadata {&quot;driver&quot;: {&quot;name&quot;: &quot;mongo-java-driver|spring-boot|sync&quot;, &quot;version&quot;: &quot;5.6.1&quot;}, &quot;os&quot;: {&quot;type&quot;: &quot;Linux&quot;, &quot;name&quot;: &quot;Linux&quot;, &quot;architecture&quot;: &quot;amd64&quot;, &quot;version&quot;: &quot;6.17.8-zen1-1-zen&quot;}, &quot;platform&quot;: &quot;Java/Arch Linux/21.0.9+10&quot;} created with settings MongoClientSettings{readPreference=primary, writeConcern=WriteConcern{w=null, wTimeout=null ms, journal=null}, retryWrites=true, retryReads=true, readConcern=ReadConcern{level=null}, credential=null, transportSettings=null, commandListeners=[], codecRegistry=ProvidersCodecRegistry{codecProviders=[ValueCodecProvider{}, BsonValueCodecProvider{}, DBRefCodecProvider{}, DBObjectCodecProvider{}, DocumentCodecProvider{}, CollectionCodecProvider{}, IterableCodecProvider{}, MapCodecProvider{}, GeoJsonCodecProvider{}, GridFSFileCodecProvider{}, Jsr310CodecProvider{}, JsonObjectCodecProvider{}, BsonCodecProvider{}, com.mongodb.client.model.mql.ExpressionCodecProvider@3d376f28, com.mongodb.Jep395RecordCodecProvider@7a08da83, com.mongodb.KotlinCodecProvider@116e03e9, EnumCodecProvider{}]}, loggerSettings=LoggerSettings{maxDocumentLength=1000}, clusterSettings={hosts=[localhost:27017], srvServiceName=mongodb, mode=SINGLE, requiredClusterType=UNKNOWN, requiredReplicaSetName='null', serverSelector='null', clusterListeners='[]', serverSelectionTimeout='30000 ms', localThreshold='15 ms'}, socketSettings=SocketSettings{connectTimeoutMS=10000, readTimeoutMS=0, receiveBufferSize=0, proxySettings=ProxySettings{host=null, port=null, username=null, password=null}}, heartbeatSocketSettings=SocketSettings{connectTimeoutMS=10000, readTimeoutMS=10000, receiveBufferSize=0, proxySettings=ProxySettings{host=null, port=null, username=null, password=null}}, connectionPoolSettings=ConnectionPoolSettings{maxSize=100, minSize=0, maxWaitTimeMS=120000, maxConnectionLifeTimeMS=0, maxConnectionIdleTimeMS=0, maintenanceInitialDelayMS=0, maintenanceFrequencyMS=60000, connectionPoolListeners=[], maxConnecting=2}, serverSettings=ServerSettings{heartbeatFrequencyMS=10000, minHeartbeatFrequencyMS=500, serverMonitoringMode=AUTO, serverListeners='[]', serverMonitorListeners='[]'}, sslSettings=SslSettings{enabled=false, invalidHostNameAllowed=false, context=null}, applicationName='null', compressorList=[], uuidRepresentation=UNSPECIFIED, serverApi=null, autoEncryptionSettings=null, dnsClient=null, inetAddressResolver=null, contextProvider=null, timeoutMS=null}
+2025-11-23T23:11:47.679+01:00  INFO 198631 --- [localhost:27017] org.mongodb.driver.cluster               : Monitor thread successfully connected to server with description ServerDescription{address=localhost:27017, type=STANDALONE, cryptd=false, state=CONNECTED, ok=true, minWireVersion=0, maxWireVersion=25, maxDocumentSize=16777216, logicalSessionTimeoutMinutes=30, roundTripTimeNanos=825100, minRoundTripTimeNanos=0}
+2025-11-23T23:11:47.716+01:00  INFO 198631 --- [    Test worker] .m.MongoRepositoryAdapterIntegrationTest : Started MongoRepositoryAdapterIntegrationTest in 0.136 seconds (process running for 9.067)
 </pre>
 </span>
 </div>
@@ -168,7 +168,7 @@
 <input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
 </label>
 </div>Generated by 
-<a href="https://www.gradle.org">Gradle 8.14</a> at Nov 23, 2025, 10:59:20 PM</p>
+<a href="https://www.gradle.org">Gradle 8.14</a> at Nov 23, 2025, 11:11:48 PM</p>
 </div>
 </div>
 </body>

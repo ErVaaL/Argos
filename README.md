@@ -5,7 +5,7 @@ Lightweight IoT telemetry stack: domain layer, application services, MongoDB ada
 ## System requirements
 - Java 21 (Java 17+ works; project toolchain targets 21)
 - Gradle (wrapper provided: `./gradlew`)
-- MongoDB 8 (see `docker-compose.mongo.yml` for a quick local instance)
+- MongoDB 8 (see `run-mongo.sh` for a quick local instance)
 
 ## Setup and installation
 ```bash
@@ -13,7 +13,10 @@ git clone <repo-url>
 cd Argos
 
 # Optional: start Mongo locally
-docker compose -f docker-compose.mongo.yml up -d
+./run-mongo.sh
+
+# Or:
+docker run -d -p 27017:27017 --name argos-mongo -e MONGO_INITDB_DATABASE=argos mongo:8.0
 
 # Build and run tests
 ./gradlew test
