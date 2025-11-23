@@ -39,6 +39,7 @@ public class SecurityConfig {
                 .requestMatchers("/internal/oauth/**").permitAll()
                 .requestMatchers("/graphql").permitAll()
                 .anyRequest().authenticated())
+            .formLogin(AbstractHttpConfigurer::disable)
             .oauth2ResourceServer(oauth -> oauth
                 .bearerTokenResolver(resolver)
                 .jwt(jwt -> jwt
