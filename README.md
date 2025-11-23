@@ -20,6 +20,9 @@ docker run -d -p 27017:27017 --name argos-mongo -e MONGO_INITDB_DATABASE=argos m
 
 # Build and run tests
 ./gradlew test
+
+# Build and run jacoco test
+./gradlew jacocoTestReport
 ```
 
 ## Configuration
