@@ -12,6 +12,13 @@ import java.time.Instant;
 
 /**
  * Application service coordinating measurement commands and queries.
+ * <p>
+ * Responsibilities:
+ * <ul>
+ * <li>verifying referenced devices exist</li>
+ * <li>defaulting timestamps when the caller omits them</li>
+ * <li>delegating filtering and paging to the repository port</li>
+ * </ul>
  */
 public record MeasurementService(MeasurementRepositoryPort measurementRepo, DeviceRepositoryPort deviceRepo)
         implements MeasurementCommandUseCase, MeasurementQueryUseCase {
@@ -48,6 +55,12 @@ public record MeasurementService(MeasurementRepositoryPort measurementRepo, Devi
 
     /**
      * Finds measurements matching the given filter and pagination settings.
+     * <p>
+     * Defaults:
+     * <ul>
+     * <li>sorts by {@code timestamp} when no sort field is provided</li>
+     * <li>returns empty content when nothing matches the filter</li>
+     * </ul>
      *
      * @param filter      filter criteria (device, type, time range); may be
      *                    {@code null}

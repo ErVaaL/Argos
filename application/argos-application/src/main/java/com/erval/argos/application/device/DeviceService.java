@@ -13,11 +13,24 @@ import com.erval.argos.core.domain.device.DeviceType;
 
 /**
  * Application service orchestrating device commands and queries.
+ * <p>
+ * Responsibilities:
+ * <ul>
+ * <li>validating and persisting device aggregates</li>
+ * <li>translating query filters into repository calls</li>
+ * <li>managing default values such as generated identifiers</li>
+ * </ul>
  */
 public record DeviceService(DeviceRepositoryPort repo) implements DeviceCommandUseCase, DeviceQueryUseCase {
 
     /**
      * Creates a new device using the provided command data.
+     * <p>
+     * Behavior notes:
+     * <ul>
+     * <li>generates a random UUID for the device id</li>
+     * <li>marks the device as active by default</li>
+     * </ul>
      *
      * @param cmd incoming device data
      * @return the persisted device
@@ -39,6 +52,10 @@ public record DeviceService(DeviceRepositoryPort repo) implements DeviceCommandU
 
     /**
      * Removes a device by id.
+     * <p>
+     * <ul>
+     * <li>silently succeeds if the id does not exist</li>
+     * </ul>
      *
      * @param id identifier of the device to delete
      */
@@ -50,6 +67,12 @@ public record DeviceService(DeviceRepositoryPort repo) implements DeviceCommandU
     /**
      * Updates a device with new values, keeping existing fields when a command
      * value is null.
+     * <p>
+     * Field handling rules:
+     * <ul>
+     * <li>non-null command values overwrite stored values</li>
+     * <li>null command values leave the existing field intact</li>
+     * </ul>
      *
      * @param id  identifier of the device to update
      * @param cmd incoming updates
@@ -79,6 +102,12 @@ public record DeviceService(DeviceRepositoryPort repo) implements DeviceCommandU
 
     /**
      * Finds devices that match the given filter and pagination settings.
+     * <p>
+     * Defaults:
+     * <ul>
+     * <li>sorts by {@code name} when the caller omits a field</li>
+     * <li>returns empty content when no devices match the filter</li>
+     * </ul>
      *
      * @param filter      filter criteria (building, room, type, active flag); may
      *                    be {@code null}
