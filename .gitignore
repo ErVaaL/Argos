@@ -2,7 +2,8 @@
 .idea/
 *.iml
 *.iws
-out/
+/out/
+/bin/
 
 # Gradle
 /build/
@@ -17,4 +18,3 @@ gradle-app.setting
 # OS
 .DS_Store
 Thumbs.db
-
