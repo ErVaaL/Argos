@@ -7,6 +7,13 @@ import com.erval.argos.core.domain.measurement.MeasurementType;
 
 /**
  * Use case for ingesting measurements from devices or an IoT gateway.
+ * <p>
+ * Steps:
+ * <ul>
+ * <li>validate payload integrity (device id, type, timestamp)</li>
+ * <li>map into domain aggregates</li>
+ * <li>persist via the measurement repository port</li>
+ * </ul>
  */
 public interface MeasurementCommandUseCase {
 
@@ -20,6 +27,12 @@ public interface MeasurementCommandUseCase {
 
     /**
      * Command used for creating a measurement.
+     * <p>
+     * Notes:
+     * <ul>
+     * <li>{@code timestamp} may be null to indicate "now"</li>
+     * <li>{@code value} is expected to be already validated at the edge</li>
+     * </ul>
      *
      * @param deviceId  ID of the device that produced the measurement
      * @param type      type of the measurement

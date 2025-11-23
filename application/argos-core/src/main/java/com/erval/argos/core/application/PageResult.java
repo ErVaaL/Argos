@@ -4,9 +4,16 @@ import java.util.List;
 
 /**
  * Represents a page of results returned from a query.
+ * <p>
+ * Structure:
+ * <ul>
+ * <li>{@code content} contains only the current slice of data</li>
+ * <li>{@code totalElements} reflects the count across all pages</li>
+ * <li>{@code page} is zero-based and pairs with {@code size}</li>
+ * </ul>
  *
  * @param content       list of items on the current page
- * @param totalElements total number of elements taht match the query
+ * @param totalElements total number of elements that match the query
  * @param page          zero-based page index
  * @param size          page size
  * @param <T>           item type
