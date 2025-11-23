@@ -26,6 +26,9 @@ import lombok.RequiredArgsConstructor;
 
 @Controller
 @RequiredArgsConstructor
+/**
+ * GraphQL controller exposing queries and mutations for devices and measurements.
+ */
 public class DeviceGraphqlController {
 
     private static final String DEFAULT_DEVICE_SORT = "name";
@@ -38,7 +41,7 @@ public class DeviceGraphqlController {
 
     @QueryMapping
     public PageResult<Device> devices(
-            @Argument DeviceFilterInput filter,
+            @Argument("filter") DeviceFilterInput filter,
             @Argument("page") PageRequestInput pageInput) {
         PageRequest pageRequest = GraphqlMapper.toPageRequest(pageInput, DEFAULT_DEVICE_SORT);
         return deviceQueryUseCase.findDevices(GraphqlMapper.toDeviceFilter(filter), pageRequest);
@@ -46,30 +49,30 @@ public class DeviceGraphqlController {
 
     @QueryMapping
     public PageResult<Measurement> measurements(
-            @Argument MeasurementFilterInput filter,
+            @Argument("filter") MeasurementFilterInput filter,
             @Argument("page") PageRequestInput pageInput) {
         PageRequest pageRequest = normalizeMeasurementSort(GraphqlMapper.toPageRequest(pageInput, DEFAULT_MEASUREMENT_SORT));
         return measurementQueryUseCase.findMeasurements(GraphqlMapper.toMeasurementFilter(filter), pageRequest);
     }
 
     @MutationMapping
-    public Device createDevice(@Argument CreateDeviceInput input) {
+    public Device createDevice(@Argument("input") CreateDeviceInput input) {
         return deviceCommandUseCase.createDevice(GraphqlMapper.toCreateDeviceCommand(input));
     }
 
     @MutationMapping
-    public Device updateDevice(@Argument String id, @Argument UpdateDeviceInput input) {
+    public Device updateDevice(@Argument("id") String id, @Argument("input") UpdateDeviceInput input) {
         return deviceCommandUseCase.updateDevice(id, GraphqlMapper.toUpdateDeviceCommand(input));
     }
 
     @MutationMapping
-    public Boolean deleteDevice(@Argument String id) {
+    public Boolean deleteDevice(@Argument("id") String id) {
         deviceCommandUseCase.deleteDevice(id);
         return true;
     }
 
     @MutationMapping
-    public Measurement createMeasurement(@Argument CreateMeasurementInput input) {
+    public Measurement createMeasurement(@Argument("input") CreateMeasurementInput input) {
         return measurementCommandUseCase.createMeasurement(GraphqlMapper.toCreateMeasurementCommand(input));
     }
 
