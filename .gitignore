@@ -1,0 +1,20 @@
+# IntelliJ
+.idea/
+*.iml
+*.iws
+out/
+
+# Gradle
+/build/
+gradle-app.setting
+
+# Root Gradle cache
+.gradle/
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
