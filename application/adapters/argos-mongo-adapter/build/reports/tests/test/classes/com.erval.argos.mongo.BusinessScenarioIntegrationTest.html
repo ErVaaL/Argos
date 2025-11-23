@@ -41,7 +41,7 @@
 </td>
 <td>
 <div class="infoBox" id="duration">
-<div class="counter">1.714s</div>
+<div class="counter">0.844s</div>
 <p>duration</p>
 </div>
 </td>
@@ -82,27 +82,27 @@
 </thead>
 <tr>
 <td class="success">createMeasurementFailsWhenDeviceMissing()</td>
-<td class="success">0.011s</td>
+<td class="success">0.009s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">deleteByDeviceIdRemovesAllMeasurements()</td>
-<td class="success">0.335s</td>
+<td class="success">0.120s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">duplicateDeviceNameThrowsDataIntegrityViolation()</td>
-<td class="success">0.022s</td>
+<td class="success">0.015s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">filtersAndSortsMeasurementsByTimestamp()</td>
-<td class="success">0.073s</td>
+<td class="success">0.042s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">updateDeviceFailsWhenNotFound()</td>
-<td class="success">1.273s</td>
+<td class="success">0.658s</td>
 <td class="success">passed</td>
 </tr>
 </table>
@@ -110,27 +110,27 @@
 <div class="tab">
 <h2>Standard output</h2>
 <span class="code">
-<pre>21:31:05.889 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.erval.argos.mongo.MongoRepositoryAdapterIntegrationTest$TestApp for test class com.erval.argos.mongo.BusinessScenarioIntegrationTest
-21:31:06.277 [Test worker] INFO org.testcontainers.images.PullPolicy -- Image pull policy will be performed by: DefaultPullPolicy()
-21:31:06.283 [Test worker] INFO org.testcontainers.utility.ImageNameSubstitutor -- Image name substitution will be performed by: DefaultImageNameSubstitutor (composite of 'ConfigurationFileImageNameSubstitutor' and 'PrefixingImageNameSubstitutor')
-21:31:06.303 [Test worker] INFO org.testcontainers.DockerClientFactory -- Testcontainers version: 1.21.3
-21:31:07.095 [Test worker] INFO org.testcontainers.dockerclient.DockerClientProviderStrategy -- Loaded org.testcontainers.dockerclient.UnixSocketClientProviderStrategy from ~/.testcontainers.properties, will try it first
-21:31:07.602 [Test worker] INFO org.testcontainers.dockerclient.DockerClientProviderStrategy -- Found Docker environment with local Unix socket (unix:///var/run/docker.sock)
-21:31:07.604 [Test worker] INFO org.testcontainers.DockerClientFactory -- Docker host IP address is localhost
-21:31:07.626 [Test worker] INFO org.testcontainers.DockerClientFactory -- Connected to docker: 
+<pre>21:35:56.823 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.erval.argos.mongo.MongoRepositoryAdapterIntegrationTest$TestApp for test class com.erval.argos.mongo.BusinessScenarioIntegrationTest
+21:35:56.984 [Test worker] INFO org.testcontainers.images.PullPolicy -- Image pull policy will be performed by: DefaultPullPolicy()
+21:35:56.986 [Test worker] INFO org.testcontainers.utility.ImageNameSubstitutor -- Image name substitution will be performed by: DefaultImageNameSubstitutor (composite of 'ConfigurationFileImageNameSubstitutor' and 'PrefixingImageNameSubstitutor')
+21:35:56.997 [Test worker] INFO org.testcontainers.DockerClientFactory -- Testcontainers version: 1.21.3
+21:35:57.302 [Test worker] INFO org.testcontainers.dockerclient.DockerClientProviderStrategy -- Loaded org.testcontainers.dockerclient.UnixSocketClientProviderStrategy from ~/.testcontainers.properties, will try it first
+21:35:57.554 [Test worker] INFO org.testcontainers.dockerclient.DockerClientProviderStrategy -- Found Docker environment with local Unix socket (unix:///var/run/docker.sock)
+21:35:57.556 [Test worker] INFO org.testcontainers.DockerClientFactory -- Docker host IP address is localhost
+21:35:57.570 [Test worker] INFO org.testcontainers.DockerClientFactory -- Connected to docker: 
   Server Version: 28.5.2
   API Version: 1.51
   Operating System: Arch Linux
   Total Memory: 32024 MB
-21:31:07.687 [Test worker] INFO tc.testcontainers/ryuk:0.12.0 -- Creating container for image: testcontainers/ryuk:0.12.0
-21:31:07.916 [Test worker] INFO tc.testcontainers/ryuk:0.12.0 -- Container testcontainers/ryuk:0.12.0 is starting: cbd615e0fb31cf9ab3911b13d9612ad1ba485795e715e86f3b5c42c5149d7e4f
-21:31:08.207 [Test worker] INFO tc.testcontainers/ryuk:0.12.0 -- Container testcontainers/ryuk:0.12.0 started in PT0.520014642S
-21:31:08.211 [Test worker] INFO org.testcontainers.utility.RyukResourceReaper -- Ryuk started - will monitor and terminate Testcontainers containers on JVM exit
-21:31:08.211 [Test worker] INFO org.testcontainers.DockerClientFactory -- Checking the system...
-21:31:08.212 [Test worker] INFO org.testcontainers.DockerClientFactory -- ✔︎ Docker server version should be at least 1.6.0
-21:31:08.213 [Test worker] INFO tc.mongo:6.0.5 -- Creating container for image: mongo:6.0.5
-21:31:08.264 [Test worker] INFO tc.mongo:6.0.5 -- Container mongo:6.0.5 is starting: 60836969437d30f0beb0970d317d2d2387511bc6fca9fa5b363d1b0055a02109
-21:31:08.944 [Test worker] INFO tc.mongo:6.0.5 -- Container mongo:6.0.5 started in PT0.731495711S
+21:35:57.599 [Test worker] INFO tc.testcontainers/ryuk:0.12.0 -- Creating container for image: testcontainers/ryuk:0.12.0
+21:35:57.732 [Test worker] INFO tc.testcontainers/ryuk:0.12.0 -- Container testcontainers/ryuk:0.12.0 is starting: 13723577bf2366559f03ff55cba9b00e43c558e5c66da10c27dc7546abf923a6
+21:35:57.992 [Test worker] INFO tc.testcontainers/ryuk:0.12.0 -- Container testcontainers/ryuk:0.12.0 started in PT0.393052481S
+21:35:57.996 [Test worker] INFO org.testcontainers.utility.RyukResourceReaper -- Ryuk started - will monitor and terminate Testcontainers containers on JVM exit
+21:35:57.996 [Test worker] INFO org.testcontainers.DockerClientFactory -- Checking the system...
+21:35:57.997 [Test worker] INFO org.testcontainers.DockerClientFactory -- ✔︎ Docker server version should be at least 1.6.0
+21:35:57.997 [Test worker] INFO tc.mongo:6.0.5 -- Creating container for image: mongo:6.0.5
+21:35:58.057 [Test worker] INFO tc.mongo:6.0.5 -- Container mongo:6.0.5 is starting: d19aad28697c53322bf43d3bdd89be1bae47c5689f29c19d0d1edd46e9f261de
+21:35:58.747 [Test worker] INFO tc.mongo:6.0.5 -- Container mongo:6.0.5 started in PT0.750118539S
 
   .   ____          _            __ _ _
  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
@@ -141,13 +141,13 @@
 
  :: Spring Boot ::                (v4.0.0)
 
-2025-11-23T21:31:10.773+01:00  INFO 165124 --- [    Test worker] c.e.a.m.BusinessScenarioIntegrationTest  : Starting BusinessScenarioIntegrationTest using Java 21.0.9 with PID 165124 (started by erval in /home/erval/projects/private/Argos/application/adapters/argos-mongo-adapter)
-2025-11-23T21:31:10.775+01:00  INFO 165124 --- [    Test worker] c.e.a.m.BusinessScenarioIntegrationTest  : No active profile set, falling back to 1 default profile: &quot;default&quot;
-2025-11-23T21:31:11.331+01:00  INFO 165124 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data MongoDB repositories in DEFAULT mode.
-2025-11-23T21:31:11.416+01:00  INFO 165124 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 70 ms. Found 2 MongoDB repository interfaces.
-2025-11-23T21:31:12.074+01:00  INFO 165124 --- [    Test worker] org.mongodb.driver.client                : MongoClient with metadata {&quot;driver&quot;: {&quot;name&quot;: &quot;mongo-java-driver|spring-boot|sync&quot;, &quot;version&quot;: &quot;5.6.1&quot;}, &quot;os&quot;: {&quot;type&quot;: &quot;Linux&quot;, &quot;name&quot;: &quot;Linux&quot;, &quot;architecture&quot;: &quot;amd64&quot;, &quot;version&quot;: &quot;6.17.8-zen1-1-zen&quot;}, &quot;platform&quot;: &quot;Java/Arch Linux/21.0.9+10&quot;} created with settings MongoClientSettings{readPreference=primary, writeConcern=WriteConcern{w=null, wTimeout=null ms, journal=null}, retryWrites=true, retryReads=true, readConcern=ReadConcern{level=null}, credential=null, transportSettings=null, commandListeners=[], codecRegistry=ProvidersCodecRegistry{codecProviders=[ValueCodecProvider{}, BsonValueCodecProvider{}, DBRefCodecProvider{}, DBObjectCodecProvider{}, DocumentCodecProvider{}, CollectionCodecProvider{}, IterableCodecProvider{}, MapCodecProvider{}, GeoJsonCodecProvider{}, GridFSFileCodecProvider{}, Jsr310CodecProvider{}, JsonObjectCodecProvider{}, BsonCodecProvider{}, com.mongodb.client.model.mql.ExpressionCodecProvider@633a248a, com.mongodb.Jep395RecordCodecProvider@681da2f5, com.mongodb.KotlinCodecProvider@141c7b8d, EnumCodecProvider{}]}, loggerSettings=LoggerSettings{maxDocumentLength=1000}, clusterSettings={hosts=[localhost:27017], srvServiceName=mongodb, mode=SINGLE, requiredClusterType=UNKNOWN, requiredReplicaSetName='null', serverSelector='null', clusterListeners='[]', serverSelectionTimeout='30000 ms', localThreshold='15 ms'}, socketSettings=SocketSettings{connectTimeoutMS=10000, readTimeoutMS=0, receiveBufferSize=0, proxySettings=ProxySettings{host=null, port=null, username=null, password=null}}, heartbeatSocketSettings=SocketSettings{connectTimeoutMS=10000, readTimeoutMS=10000, receiveBufferSize=0, proxySettings=ProxySettings{host=null, port=null, username=null, password=null}}, connectionPoolSettings=ConnectionPoolSettings{maxSize=100, minSize=0, maxWaitTimeMS=120000, maxConnectionLifeTimeMS=0, maxConnectionIdleTimeMS=0, maintenanceInitialDelayMS=0, maintenanceFrequencyMS=60000, connectionPoolListeners=[], maxConnecting=2}, serverSettings=ServerSettings{heartbeatFrequencyMS=10000, minHeartbeatFrequencyMS=500, serverMonitoringMode=AUTO, serverListeners='[]', serverMonitorListeners='[]'}, sslSettings=SslSettings{enabled=false, invalidHostNameAllowed=false, context=null}, applicationName='null', compressorList=[], uuidRepresentation=UNSPECIFIED, serverApi=null, autoEncryptionSettings=null, dnsClient=null, inetAddressResolver=null, contextProvider=null, timeoutMS=null}
-2025-11-23T21:31:12.093+01:00  INFO 165124 --- [localhost:27017] org.mongodb.driver.cluster               : Monitor thread successfully connected to server with description ServerDescription{address=localhost:27017, type=STANDALONE, cryptd=false, state=CONNECTED, ok=true, minWireVersion=0, maxWireVersion=25, maxDocumentSize=16777216, logicalSessionTimeoutMinutes=30, roundTripTimeNanos=40818334, minRoundTripTimeNanos=0}
-2025-11-23T21:31:12.724+01:00  INFO 165124 --- [    Test worker] c.e.a.m.BusinessScenarioIntegrationTest  : Started BusinessScenarioIntegrationTest in 2.444 seconds (process running for 9.404)
+2025-11-23T21:36:00.363+01:00  INFO 167054 --- [    Test worker] c.e.a.m.BusinessScenarioIntegrationTest  : Starting BusinessScenarioIntegrationTest using Java 21.0.9 with PID 167054 (started by erval in /home/erval/projects/private/Argos/application/adapters/argos-mongo-adapter)
+2025-11-23T21:36:00.364+01:00  INFO 167054 --- [    Test worker] c.e.a.m.BusinessScenarioIntegrationTest  : No active profile set, falling back to 1 default profile: &quot;default&quot;
+2025-11-23T21:36:00.649+01:00  INFO 167054 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data MongoDB repositories in DEFAULT mode.
+2025-11-23T21:36:00.693+01:00  INFO 167054 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 36 ms. Found 2 MongoDB repository interfaces.
+2025-11-23T21:36:01.033+01:00  INFO 167054 --- [    Test worker] org.mongodb.driver.client                : MongoClient with metadata {&quot;driver&quot;: {&quot;name&quot;: &quot;mongo-java-driver|spring-boot|sync&quot;, &quot;version&quot;: &quot;5.6.1&quot;}, &quot;os&quot;: {&quot;type&quot;: &quot;Linux&quot;, &quot;name&quot;: &quot;Linux&quot;, &quot;architecture&quot;: &quot;amd64&quot;, &quot;version&quot;: &quot;6.17.8-zen1-1-zen&quot;}, &quot;platform&quot;: &quot;Java/Arch Linux/21.0.9+10&quot;} created with settings MongoClientSettings{readPreference=primary, writeConcern=WriteConcern{w=null, wTimeout=null ms, journal=null}, retryWrites=true, retryReads=true, readConcern=ReadConcern{level=null}, credential=null, transportSettings=null, commandListeners=[], codecRegistry=ProvidersCodecRegistry{codecProviders=[ValueCodecProvider{}, BsonValueCodecProvider{}, DBRefCodecProvider{}, DBObjectCodecProvider{}, DocumentCodecProvider{}, CollectionCodecProvider{}, IterableCodecProvider{}, MapCodecProvider{}, GeoJsonCodecProvider{}, GridFSFileCodecProvider{}, Jsr310CodecProvider{}, JsonObjectCodecProvider{}, BsonCodecProvider{}, com.mongodb.client.model.mql.ExpressionCodecProvider@49afa057, com.mongodb.Jep395RecordCodecProvider@78b5b2f9, com.mongodb.KotlinCodecProvider@3680cde9, EnumCodecProvider{}]}, loggerSettings=LoggerSettings{maxDocumentLength=1000}, clusterSettings={hosts=[localhost:27017], srvServiceName=mongodb, mode=SINGLE, requiredClusterType=UNKNOWN, requiredReplicaSetName='null', serverSelector='null', clusterListeners='[]', serverSelectionTimeout='30000 ms', localThreshold='15 ms'}, socketSettings=SocketSettings{connectTimeoutMS=10000, readTimeoutMS=0, receiveBufferSize=0, proxySettings=ProxySettings{host=null, port=null, username=null, password=null}}, heartbeatSocketSettings=SocketSettings{connectTimeoutMS=10000, readTimeoutMS=10000, receiveBufferSize=0, proxySettings=ProxySettings{host=null, port=null, username=null, password=null}}, connectionPoolSettings=ConnectionPoolSettings{maxSize=100, minSize=0, maxWaitTimeMS=120000, maxConnectionLifeTimeMS=0, maxConnectionIdleTimeMS=0, maintenanceInitialDelayMS=0, maintenanceFrequencyMS=60000, connectionPoolListeners=[], maxConnecting=2}, serverSettings=ServerSettings{heartbeatFrequencyMS=10000, minHeartbeatFrequencyMS=500, serverMonitoringMode=AUTO, serverListeners='[]', serverMonitorListeners='[]'}, sslSettings=SslSettings{enabled=false, invalidHostNameAllowed=false, context=null}, applicationName='null', compressorList=[], uuidRepresentation=UNSPECIFIED, serverApi=null, autoEncryptionSettings=null, dnsClient=null, inetAddressResolver=null, contextProvider=null, timeoutMS=null}
+2025-11-23T21:36:01.044+01:00  INFO 167054 --- [localhost:27017] org.mongodb.driver.cluster               : Monitor thread successfully connected to server with description ServerDescription{address=localhost:27017, type=STANDALONE, cryptd=false, state=CONNECTED, ok=true, minWireVersion=0, maxWireVersion=25, maxDocumentSize=16777216, logicalSessionTimeoutMinutes=30, roundTripTimeNanos=29710228, minRoundTripTimeNanos=0}
+2025-11-23T21:36:01.374+01:00  INFO 167054 --- [    Test worker] c.e.a.m.BusinessScenarioIntegrationTest  : Started BusinessScenarioIntegrationTest in 1.249 seconds (process running for 6.001)
 </pre>
 </span>
 </div>
@@ -170,7 +170,7 @@ WARNING: Dynamic loading of agents will be disallowed by default in a future rel
 <input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
 </label>
 </div>Generated by 
-<a href="https://www.gradle.org">Gradle 8.14</a> at Nov 23, 2025, 9:31:17 PM</p>
+<a href="https://www.gradle.org">Gradle 8.14</a> at Nov 23, 2025, 9:36:04 PM</p>
 </div>
 </div>
 </body>

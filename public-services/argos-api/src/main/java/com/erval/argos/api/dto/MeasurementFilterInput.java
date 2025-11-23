@@ -2,11 +2,13 @@ package com.erval.argos.api.dto;
 
 import com.erval.argos.core.domain.measurement.MeasurementType;
 
+import jakarta.validation.constraints.Size;
+
 /**
  * GraphQL input used to filter measurements.
  */
 public record MeasurementFilterInput(
-        String deviceId,
+        @Size(max = 120) String deviceId,
         MeasurementType type,
         String from,
         String to) {

@@ -23,9 +23,12 @@ import com.erval.argos.core.application.port.in.commands.MeasurementCommandUseCa
 import com.erval.argos.core.application.port.in.queries.MeasurementQueryUseCase;
 import com.erval.argos.core.domain.measurement.Measurement;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.validation.annotation.Validated;
 
 @Controller
+@Validated
 @RequiredArgsConstructor
 public class DeviceGraphqlController {
 
@@ -39,29 +42,29 @@ public class DeviceGraphqlController {
 
     @QueryMapping
     public PageResult<Device> devices(
-            @Argument("filter") DeviceFilterInput filter,
-            @Argument("page") PageRequestInput pageInput) {
+            @Argument("filter") @Valid DeviceFilterInput filter,
+            @Argument("page") @Valid PageRequestInput pageInput) {
         PageRequest pageRequest = GraphqlMapper.toPageRequest(pageInput, DEFAULT_DEVICE_SORT);
         return deviceQueryUseCase.findDevices(GraphqlMapper.toDeviceFilter(filter), pageRequest);
     }
 
     @QueryMapping
     public PageResult<Measurement> measurements(
-            @Argument("filter") MeasurementFilterInput filter,
-            @Argument("page") PageRequestInput pageInput) {
+            @Argument("filter") @Valid MeasurementFilterInput filter,
+            @Argument("page") @Valid PageRequestInput pageInput) {
         PageRequest pageRequest = normalizeMeasurementSort(GraphqlMapper.toPageRequest(pageInput, DEFAULT_MEASUREMENT_SORT));
         return measurementQueryUseCase.findMeasurements(GraphqlMapper.toMeasurementFilter(filter), pageRequest);
     }
 
     @MutationMapping
     @PreAuthorize("isAuthenticated()")
-    public Device createDevice(@Argument("input") CreateDeviceInput input) {
+    public Device createDevice(@Argument("input") @Valid CreateDeviceInput input) {
         return deviceCommandUseCase.createDevice(GraphqlMapper.toCreateDeviceCommand(input));
     }
 
     @MutationMapping
     @PreAuthorize("isAuthenticated()")
-    public Device updateDevice(@Argument("id") String id, @Argument("input") UpdateDeviceInput input) {
+    public Device updateDevice(@Argument("id") String id, @Argument("input") @Valid UpdateDeviceInput input) {
         return deviceCommandUseCase.updateDevice(id, GraphqlMapper.toUpdateDeviceCommand(input));
     }
 
@@ -74,7 +77,7 @@ public class DeviceGraphqlController {
 
     @MutationMapping
     @PreAuthorize("isAuthenticated()")
-    public Measurement createMeasurement(@Argument("input") CreateMeasurementInput input) {
+    public Measurement createMeasurement(@Argument("input") @Valid CreateMeasurementInput input) {
         return measurementCommandUseCase.createMeasurement(GraphqlMapper.toCreateMeasurementCommand(input));
     }
 

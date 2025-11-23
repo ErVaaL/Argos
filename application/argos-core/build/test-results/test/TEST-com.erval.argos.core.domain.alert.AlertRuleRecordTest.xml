@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.erval.argos.core.domain.alert.AlertRuleRecordTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2025-11-23T20:30:25.082Z" hostname="erval-FoxMain" time="0.004">
+<testsuite name="com.erval.argos.core.domain.alert.AlertRuleRecordTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2025-11-23T20:35:54.892Z" hostname="erval-FoxMain" time="0.002">
   <properties/>
-  <testcase name="storesRuleFields()" classname="com.erval.argos.core.domain.alert.AlertRuleRecordTest" time="0.004"/>
+  <testcase name="storesRuleFields()" classname="com.erval.argos.core.domain.alert.AlertRuleRecordTest" time="0.002"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

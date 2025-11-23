@@ -2,12 +2,14 @@ package com.erval.argos.api.dto;
 
 import com.erval.argos.core.domain.device.DeviceType;
 
+import jakarta.validation.constraints.Size;
+
 /**
  * GraphQL input for filtering devices.
  */
 public record DeviceFilterInput(
-        String building,
-        String room,
+        @Size(max = 60) String building,
+        @Size(max = 60) String room,
         DeviceType type,
         Boolean active) {
 }
