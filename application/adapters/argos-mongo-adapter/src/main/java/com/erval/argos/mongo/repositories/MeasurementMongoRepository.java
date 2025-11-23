@@ -16,6 +16,12 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface MeasurementMongoRepository extends MongoRepository<MeasurementDocument, String> {
 
+    /**
+     * Returns a projection of measurements for a device, limited to summary fields.
+     *
+     * @param deviceId device identifier to filter by
+     * @return summaries containing deviceId, timestamp, value, and type
+     */
     @Query(value = "{ 'deviceId': ?0 }", fields = "{ 'deviceId': 1, 'timestamp': 1, 'value': 1, 'type': 1 }")
     List<MeasurementSummary> findProjectedByDeviceId(String deviceId);
 }

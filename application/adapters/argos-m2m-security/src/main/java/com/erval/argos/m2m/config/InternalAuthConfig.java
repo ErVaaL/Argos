@@ -22,6 +22,12 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 
 
+/**
+ * Wires internal M2M authentication components (keys, clients, token issuer).
+ * <p>
+ * Exposes beans for OAuth service and token issuance backed by local key
+ * material and client configuration.
+ */
 @Configuration
 @EnableConfigurationProperties(InternalClientProperties.class)
 public class InternalAuthConfig {
@@ -32,6 +38,12 @@ public class InternalAuthConfig {
     @Value("${internal.oauth.server.issuer}")
     private String issuer;
 
+    /**
+     * Loads RSA key pair from classpath PEM files for signing and validation.
+     *
+     * @return RSA key pair for internal token issuance
+     * @throws IllegalStateException when PEM files cannot be read or parsed
+     */
     @Bean
     public KeyPair internalKeyPair() {
         String publicPem = readPemFromClasspath(PUBLIC_KEY_PATH);
@@ -39,12 +51,24 @@ public class InternalAuthConfig {
         return PemKeyLoader.loadRsaKeyPair(publicPem, privatePem);
     }
 
+    /**
+     * Creates the token issuer using the configured key pair and issuer value.
+     *
+     * @param internalKeyPair RSA key pair used to sign tokens
+     * @return token issuer for internal OAuth
+     */
     @Bean
     public InternalTokenIssuer internalTokenIssuer(KeyPair internalKeyPair) {
         long ttlSeconds = 600;
         return new RsaInternalTokenIssuer(internalKeyPair, issuer, "",ttlSeconds);
     }
 
+    /**
+     * Builds the in-memory client store from configuration properties.
+     *
+     * @param props client properties loaded from configuration
+     * @return client store to back OAuth validation
+     */
     @Bean
     public InternalClientStore internalClientStore(InternalClientProperties props) {
         Map<String, InMemoryInternalClientStore.Client> map =
@@ -56,6 +80,13 @@ public class InternalAuthConfig {
         return new InMemoryInternalClientStore(map);
     }
 
+    /**
+     * Provides the OAuth service that issues and validates internal tokens.
+     *
+     * @param store  client store to validate client credentials
+     * @param issuer token issuer to mint JWTs
+     * @return configured internal OAuth service
+     */
     @Bean
     public InternalOAuthService internalOAuthService(
         InternalClientStore store,

@@ -117,10 +117,21 @@ public class MongoMeasurementRepositoryAdapter implements MeasurementRepositoryP
     }
 
     @Override
+    /**
+     * Deletes a measurement by its id.
+     *
+     * @param id measurement identifier
+     */
     public void deleteById(String id) {
         repo.deleteById(id);
     }
 
+    /**
+     * Retrieves all measurements with paging and sorting.
+     *
+     * @param pageRequest paging and sorting instructions
+     * @return paged measurements
+     */
     @Override
     public PageResult<Measurement> findAll(PageRequest pageRequest) {
         Pageable pageable = org.springframework.data.domain.PageRequest.of(
@@ -142,6 +153,12 @@ public class MongoMeasurementRepositoryAdapter implements MeasurementRepositoryP
     }
 
     @Override
+    /**
+     * Retrieves a measurement by id.
+     *
+     * @param id measurement identifier
+     * @return optional measurement if found
+     */
     public Optional<Measurement> findById(String id) {
         return repo.findById(id).map(MeasurementDocument::toDomain);
     }

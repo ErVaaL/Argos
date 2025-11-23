@@ -47,6 +47,12 @@ public class MongoDeviceRepositoryAdapter implements DeviceRepositoryPort {
         repo.deleteById(id);
     }
 
+    /**
+     * Retrieves all devices using paging and sorting.
+     *
+     * @param pageRequest paging and sorting instructions
+     * @return paged devices
+     */
     @Override
     public PageResult<Device> findAll(PageRequest pageRequest) {
         Pageable pageable = org.springframework.data.domain.PageRequest.of(
