@@ -9,6 +9,7 @@ import com.erval.argos.core.domain.device.Device;
 import com.erval.argos.mongo.model.DeviceDocument;
 import com.erval.argos.mongo.repositories.DeviceMongoRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -44,16 +45,16 @@ public class MongoDeviceRepositoryAdapter implements DeviceRepositoryPort {
      */
     @Override
     public void deleteById(String id) {
-<span class="fc" id="L47">        repo.deleteById(id);</span>
-<span class="fc" id="L48">    }</span>
+<span class="fc" id="L48">        repo.deleteById(id);</span>
+<span class="fc" id="L49">    }</span>
 
     /**
      * Deletes all devices.
      */
     @Override
     public void deleteAll() {
-<span class="fc" id="L55">        repo.deleteAll();</span>
-<span class="fc" id="L56">    }</span>
+<span class="fc" id="L56">        repo.deleteAll();</span>
+<span class="fc" id="L57">    }</span>
 
     /**
      * Retrieves all devices using paging and sorting.
@@ -63,18 +64,18 @@ public class MongoDeviceRepositoryAdapter implements DeviceRepositoryPort {
      */
     @Override
     public PageResult&lt;Device&gt; findAll(PageRequest pageRequest) {
-<span class="fc" id="L66">        Pageable pageable = org.springframework.data.domain.PageRequest.of(</span>
-<span class="fc" id="L67">                pageRequest.page(),</span>
-<span class="fc" id="L68">                pageRequest.size(),</span>
-<span class="pc bpc" id="L69" title="1 of 2 branches missed.">                pageRequest.direction() == SortDirection.ASC ? Sort.Direction.ASC : Sort.Direction.DESC,</span>
-<span class="pc bpc" id="L70" title="3 of 4 branches missed.">                pageRequest.sortBy() != null &amp;&amp; !pageRequest.sortBy().isBlank() ? pageRequest.sortBy() : &quot;name&quot;);</span>
+<span class="fc" id="L67">        Pageable pageable = org.springframework.data.domain.PageRequest.of(</span>
+<span class="fc" id="L68">                pageRequest.page(),</span>
+<span class="fc" id="L69">                pageRequest.size(),</span>
+<span class="pc bpc" id="L70" title="1 of 2 branches missed.">                pageRequest.direction() == SortDirection.ASC ? Sort.Direction.ASC : Sort.Direction.DESC,</span>
+<span class="pc bpc" id="L71" title="3 of 4 branches missed.">                pageRequest.sortBy() != null &amp;&amp; !pageRequest.sortBy().isBlank() ? pageRequest.sortBy() : &quot;name&quot;);</span>
 
-<span class="fc" id="L72">        Page&lt;DeviceDocument&gt; page = repo.findAll(pageable);</span>
-<span class="fc" id="L73">        List&lt;Device&gt; content = page.getContent().stream()</span>
-<span class="fc" id="L74">                .map(DeviceDocument::toDomain)</span>
-<span class="fc" id="L75">                .toList();</span>
+<span class="fc" id="L73">        Page&lt;DeviceDocument&gt; page = repo.findAll(pageable);</span>
+<span class="fc" id="L74">        List&lt;Device&gt; content = page.getContent().stream()</span>
+<span class="fc" id="L75">                .map(DeviceDocument::toDomain)</span>
+<span class="fc" id="L76">                .toList();</span>
 
-<span class="fc" id="L77">        return new PageResult&lt;&gt;(content, page.getTotalElements(), page.getNumber(), page.getSize());</span>
+<span class="fc" id="L78">        return new PageResult&lt;&gt;(content, page.getTotalElements(), page.getNumber(), page.getSize());</span>
     }
 
     /**
@@ -92,42 +93,42 @@ public class MongoDeviceRepositoryAdapter implements DeviceRepositoryPort {
      */
     @Override
     public PageResult&lt;Device&gt; findByFilter(DeviceQueryUseCase.DeviceFilter filter, PageRequest pageRequest) {
-<span class="fc" id="L95">        Query query = new Query();</span>
+<span class="fc" id="L96">        Query query = new Query();</span>
 
-<span class="pc bpc" id="L97" title="1 of 2 branches missed.">        if (filter != null) {</span>
-<span class="pc bpc" id="L98" title="2 of 4 branches missed.">            if (filter.building() != null &amp;&amp; !filter.building().isBlank()) {</span>
-<span class="fc" id="L99">                query.addCriteria(Criteria.where(&quot;building&quot;).is(filter.building()));</span>
+<span class="pc bpc" id="L98" title="1 of 2 branches missed.">        if (filter != null) {</span>
+<span class="pc bpc" id="L99" title="2 of 4 branches missed.">            if (filter.building() != null &amp;&amp; !filter.building().isBlank()) {</span>
+<span class="fc" id="L100">                query.addCriteria(Criteria.where(&quot;building&quot;).is(filter.building()));</span>
             }
-<span class="pc bpc" id="L101" title="3 of 4 branches missed.">            if (filter.room() != null &amp;&amp; !filter.room().isBlank()) {</span>
-<span class="nc" id="L102">                query.addCriteria(Criteria.where(&quot;room&quot;).is(filter.room()));</span>
+<span class="pc bpc" id="L102" title="3 of 4 branches missed.">            if (filter.room() != null &amp;&amp; !filter.room().isBlank()) {</span>
+<span class="nc" id="L103">                query.addCriteria(Criteria.where(&quot;room&quot;).is(filter.room()));</span>
             }
-<span class="pc bpc" id="L104" title="1 of 2 branches missed.">            if (filter.type() != null) {</span>
-<span class="nc" id="L105">                query.addCriteria(Criteria.where(&quot;type&quot;).is(filter.type()));</span>
+<span class="pc bpc" id="L105" title="1 of 2 branches missed.">            if (filter.type() != null) {</span>
+<span class="nc" id="L106">                query.addCriteria(Criteria.where(&quot;type&quot;).is(filter.type()));</span>
             }
-<span class="pc bpc" id="L107" title="1 of 2 branches missed.">            if (filter.active() != null) {</span>
-<span class="fc" id="L108">                query.addCriteria(Criteria.where(&quot;active&quot;).is(filter.active()));</span>
+<span class="pc bpc" id="L108" title="1 of 2 branches missed.">            if (filter.active() != null) {</span>
+<span class="fc" id="L109">                query.addCriteria(Criteria.where(&quot;active&quot;).is(filter.active()));</span>
             }
         }
 
-<span class="fc" id="L112">        Sort sort = Sort.by(</span>
-<span class="pc bpc" id="L113" title="1 of 2 branches missed.">                pageRequest.direction() == SortDirection.ASC</span>
-<span class="fc" id="L114">                        ? Sort.Direction.ASC</span>
-<span class="pc" id="L115">                        : Sort.Direction.DESC,</span>
-<span class="pc bpc" id="L116" title="2 of 4 branches missed.">                pageRequest.sortBy() != null &amp;&amp; pageRequest.sortBy().isBlank()</span>
-<span class="nc" id="L117">                        ? pageRequest.sortBy()</span>
-<span class="fc" id="L118">                        : &quot;name&quot;);</span>
+<span class="fc" id="L113">        Sort sort = Sort.by(</span>
+<span class="pc bpc" id="L114" title="1 of 2 branches missed.">                pageRequest.direction() == SortDirection.ASC</span>
+<span class="fc" id="L115">                        ? Sort.Direction.ASC</span>
+<span class="pc" id="L116">                        : Sort.Direction.DESC,</span>
+<span class="pc bpc" id="L117" title="2 of 4 branches missed.">                pageRequest.sortBy() != null &amp;&amp; pageRequest.sortBy().isBlank()</span>
+<span class="nc" id="L118">                        ? pageRequest.sortBy()</span>
+<span class="fc" id="L119">                        : &quot;name&quot;);</span>
 
-<span class="fc" id="L120">        org.springframework.data.domain.PageRequest pageable = org.springframework.data.domain.PageRequest</span>
-<span class="fc" id="L121">                .of(pageRequest.page(), pageRequest.size(), sort);</span>
+<span class="fc" id="L121">        org.springframework.data.domain.PageRequest pageable = org.springframework.data.domain.PageRequest</span>
+<span class="fc" id="L122">                .of(pageRequest.page(), pageRequest.size(), sort);</span>
 
-<span class="fc" id="L123">        long total = mongoTemplate.count(query, DeviceDocument.class);</span>
-<span class="fc" id="L124">        List&lt;DeviceDocument&gt; docs = mongoTemplate.find(query.with(pageable), DeviceDocument.class);</span>
+<span class="fc" id="L124">        long total = mongoTemplate.count(query, DeviceDocument.class);</span>
+<span class="fc" id="L125">        List&lt;DeviceDocument&gt; docs = mongoTemplate.find(query.with(pageable), DeviceDocument.class);</span>
 
-<span class="fc" id="L126">        List&lt;Device&gt; content = docs.stream()</span>
-<span class="fc" id="L127">                .map(DeviceDocument::toDomain)</span>
-<span class="fc" id="L128">                .toList();</span>
+<span class="fc" id="L127">        List&lt;Device&gt; content = docs.stream()</span>
+<span class="fc" id="L128">                .map(DeviceDocument::toDomain)</span>
+<span class="fc" id="L129">                .toList();</span>
 
-<span class="fc" id="L130">        return new PageResult&lt;&gt;(content, total, pageRequest.page(), pageRequest.size());</span>
+<span class="fc" id="L131">        return new PageResult&lt;&gt;(content, total, pageRequest.page(), pageRequest.size());</span>
     }
 
     /**
@@ -138,7 +139,7 @@ public class MongoDeviceRepositoryAdapter implements DeviceRepositoryPort {
      */
     @Override
     public Optional&lt;Device&gt; findById(String id) {
-<span class="fc" id="L141">        return repo.findById(id).map(DeviceDocument::toDomain);</span>
+<span class="fc" id="L142">        return repo.findById(id).map(DeviceDocument::toDomain);</span>
     }
 
     /**
@@ -149,8 +150,14 @@ public class MongoDeviceRepositoryAdapter implements DeviceRepositoryPort {
      */
     @Override
     public Device save(Device device) {
-<span class="fc" id="L152">        DeviceDocument saved = repo.save(DeviceDocument.fromDomain(device));</span>
-<span class="fc" id="L153">        return saved.toDomain();</span>
+<span class="fc" id="L153">        repo.findByName(device.name()).ifPresent(existing -&gt; {</span>
+<span class="pc bpc" id="L154" title="2 of 4 branches missed.">            boolean isSame = device.id() != null &amp;&amp; device.id().equals(existing.getId());</span>
+<span class="pc bpc" id="L155" title="1 of 2 branches missed.">            if (!isSame) {</span>
+<span class="fc" id="L156">                throw new DataIntegrityViolationException(&quot;Device name already exists: &quot; + device.name());</span>
+            }
+<span class="nc" id="L158">        });</span>
+<span class="fc" id="L159">        DeviceDocument saved = repo.save(DeviceDocument.fromDomain(device));</span>
+<span class="fc" id="L160">        return saved.toDomain();</span>
     }
 
 }

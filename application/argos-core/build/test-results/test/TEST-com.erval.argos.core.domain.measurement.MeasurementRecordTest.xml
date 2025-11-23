@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.erval.argos.core.domain.measurement.MeasurementRecordTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2025-11-23T20:35:54.899Z" hostname="erval-FoxMain" time="0.002">
+<testsuite name="com.erval.argos.core.domain.measurement.MeasurementRecordTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2025-11-23T21:45:29.829Z" hostname="erval-FoxMain" time="0.001">
   <properties/>
-  <testcase name="storesMeasurementValues()" classname="com.erval.argos.core.domain.measurement.MeasurementRecordTest" time="0.002"/>
+  <testcase name="storesMeasurementValues()" classname="com.erval.argos.core.domain.measurement.MeasurementRecordTest" time="0.001"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

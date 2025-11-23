@@ -9,6 +9,7 @@ import com.erval.argos.core.domain.device.Device;
 import com.erval.argos.mongo.model.DeviceDocument;
 import com.erval.argos.mongo.repositories.DeviceMongoRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -149,6 +150,12 @@ public class MongoDeviceRepositoryAdapter implements DeviceRepositoryPort {
      */
     @Override
     public Device save(Device device) {
+        repo.findByName(device.name()).ifPresent(existing -> {
+            boolean isSame = device.id() != null && device.id().equals(existing.getId());
+            if (!isSame) {
+                throw new DataIntegrityViolationException("Device name already exists: " + device.name());
+            }
+        });
         DeviceDocument saved = repo.save(DeviceDocument.fromDomain(device));
         return saved.toDomain();
     }

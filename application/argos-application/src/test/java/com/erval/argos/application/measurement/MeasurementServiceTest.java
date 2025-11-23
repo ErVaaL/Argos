@@ -81,11 +81,18 @@ class MeasurementServiceTest {
         assertEquals(request, measurementRepo.lastRequest);
     }
 
+    @Test
+    void deleteMeasurementDelegatesToRepository() {
+        service.deleteMeasurement("m1");
+        assertEquals("m1", measurementRepo.lastDeletedId);
+    }
+
     private static class FakeMeasurementRepo implements MeasurementRepositoryPort {
         private Measurement lastSaved;
         private PageResult<Measurement> nextPage;
         private MeasurementFilter lastFilter;
         private PageRequest lastRequest;
+        private String lastDeletedId;
 
         @Override
         public Measurement save(Measurement measurement) {
@@ -113,7 +120,7 @@ class MeasurementServiceTest {
 
         @Override
         public void deleteById(String id) {
-            // no-op for test stub
+            lastDeletedId = id;
         }
 
         @Override

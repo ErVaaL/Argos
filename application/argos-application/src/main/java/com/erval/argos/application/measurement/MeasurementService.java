@@ -57,6 +57,16 @@ public record MeasurementService(MeasurementRepositoryPort measurementRepo, Devi
     }
 
     /**
+     * Removes a measurement by id. No-op if missing.
+     *
+     * @param id identifier of the measurement to delete
+     */
+    @Override
+    public void deleteMeasurement(String id) {
+        measurementRepo().deleteById(id);
+    }
+
+    /**
      * Finds measurements matching the given filter and pagination settings.
      * <p>
      * Defaults:

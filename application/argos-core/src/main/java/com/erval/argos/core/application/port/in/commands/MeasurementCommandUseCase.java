@@ -26,6 +26,13 @@ public interface MeasurementCommandUseCase {
     Measurement createMeasurement(CreateMeasurementCommand command);
 
     /**
+     * Deletes a measurement by its identifier.
+     *
+     * @param id measurement identifier
+     */
+    void deleteMeasurement(String id);
+
+    /**
      * Command used for creating a measurement.
      * <p>
      * Notes:

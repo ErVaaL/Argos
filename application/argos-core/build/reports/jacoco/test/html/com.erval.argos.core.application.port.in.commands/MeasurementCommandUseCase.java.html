@@ -26,6 +26,13 @@ public interface MeasurementCommandUseCase {
     Measurement createMeasurement(CreateMeasurementCommand command);
 
     /**
+     * Deletes a measurement by its identifier.
+     *
+     * @param id measurement identifier
+     */
+    void deleteMeasurement(String id);
+
+    /**
      * Command used for creating a measurement.
      * &lt;p&gt;
      * Notes:
@@ -39,7 +46,7 @@ public interface MeasurementCommandUseCase {
      * @param value     value of the measurement
      * @param timestamp timestamp when the measurement was taken
      */
-<span class="fc" id="L42">    record CreateMeasurementCommand(</span>
+<span class="fc" id="L49">    record CreateMeasurementCommand(</span>
             String deviceId,
             MeasurementType type,
             double value,

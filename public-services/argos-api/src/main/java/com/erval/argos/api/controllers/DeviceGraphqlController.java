@@ -81,6 +81,13 @@ public class DeviceGraphqlController {
         return measurementCommandUseCase.createMeasurement(GraphqlMapper.toCreateMeasurementCommand(input));
     }
 
+    @MutationMapping
+    @PreAuthorize("isAuthenticated()")
+    public Boolean deleteMeasurement(@Argument("id") @Valid String id) {
+        measurementCommandUseCase.deleteMeasurement(id);
+        return true;
+    }
+
     private PageRequest normalizeMeasurementSort(PageRequest pageRequest) {
         Set<String> allowed = Set.of("timestamp", "value", "type", "deviceId");
         if (pageRequest.sortBy() != null && allowed.contains(pageRequest.sortBy())) {

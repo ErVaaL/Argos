@@ -13,4 +13,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface DeviceMongoRepository extends MongoRepository<DeviceDocument, String> {
 
+    boolean existsByName(String name);
+
+    java.util.Optional<DeviceDocument> findByName(String name);
 }
