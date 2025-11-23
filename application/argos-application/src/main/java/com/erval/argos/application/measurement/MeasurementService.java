@@ -10,9 +10,20 @@ import com.erval.argos.core.application.port.out.DeviceRepositoryPort;
 import com.erval.argos.core.application.port.out.MeasurementRepositoryPort;
 import com.erval.argos.core.domain.measurement.Measurement;
 
+/**
+ * Application service coordinating measurement commands and queries.
+ */
 public record MeasurementService(MeasurementRepositoryPort measurementRepo, DeviceRepositoryPort deviceRepo)
         implements MeasurementCommandUseCase, MeasurementQueryUseCase {
 
+    /**
+     * Creates a measurement for a device, defaulting timestamp to now when absent.
+     *
+     * @param cmd incoming measurement data
+     * @return persisted measurement
+     * @throws IllegalArgumentException if the device referenced by the command is
+     *                                  missing
+     */
     @Override
     public Measurement createMeasurement(CreateMeasurementCommand cmd) {
         deviceRepo().findById(cmd.deviceId())
@@ -31,6 +42,13 @@ public record MeasurementService(MeasurementRepositoryPort measurementRepo, Devi
         return measurementRepo().save(measurement);
     }
 
+    /**
+     * Finds measurements matching the given filter and pagination settings.
+     *
+     * @param filter      criteria to apply
+     * @param pageRequest pagination parameters
+     * @return measurements matching the filter wrapped in a paginated result
+     */
     @Override
     public PageResult<Measurement> findMeasurements(MeasurementFilter filter, PageRequest pageRequest) {
         return measurementRepo().findByFilter(filter, pageRequest);
