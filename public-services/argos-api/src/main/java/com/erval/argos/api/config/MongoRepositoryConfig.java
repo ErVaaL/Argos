@@ -5,8 +5,5 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 
 @Configuration
 @EnableMongoRepositories(basePackages = "com.erval.argos.mongo.repositories")
-/**
- * Enables scanning of Mongo repositories defined in the adapter module.
- */
 public class MongoRepositoryConfig {
 }

@@ -9,7 +9,6 @@ import com.erval.argos.core.application.port.in.queries.DeviceQueryUseCase;
 import com.erval.argos.core.application.port.out.DeviceRepositoryPort;
 import com.erval.argos.core.domain.device.Device;
 import com.erval.argos.core.domain.device.DeviceType;
-import com.erval.argos.core.domain.device.DeviceConfig;
 
 /**
  * Application service orchestrating device commands and queries.

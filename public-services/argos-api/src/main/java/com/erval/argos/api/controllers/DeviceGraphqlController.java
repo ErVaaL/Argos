@@ -26,9 +26,6 @@ import lombok.RequiredArgsConstructor;
 
 @Controller
 @RequiredArgsConstructor
-/**
- * GraphQL controller exposing queries and mutations for devices and measurements.
- */
 public class DeviceGraphqlController {
 
     private static final String DEFAULT_DEVICE_SORT = "name";
