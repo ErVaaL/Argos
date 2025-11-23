@@ -71,11 +71,15 @@ public class MongoMeasurementRepositoryAdapter implements MeasurementRepositoryP
             if (filter.type() != null) {
                 query.addCriteria(Criteria.where("type").is(filter.type()));
             }
+            Criteria ts = null;
             if (filter.from() != null) {
-                query.addCriteria(Criteria.where("timestamp").gte(filter.from()));
+                ts = Criteria.where("timestamp").gte(filter.from());
             }
             if (filter.to() != null) {
-                query.addCriteria(Criteria.where("timestamp").lte(filter.to()));
+                ts = (ts == null ? Criteria.where("timestamp") : ts).lte(filter.to());
+            }
+            if (ts != null) {
+                query.addCriteria(ts);
             }
         }
 

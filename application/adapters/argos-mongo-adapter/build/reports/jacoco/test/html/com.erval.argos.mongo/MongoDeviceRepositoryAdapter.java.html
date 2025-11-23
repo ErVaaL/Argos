@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MongoDeviceRepositoryAdapter.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">argos-mongo-adapter</a> &gt; <a href="index.source.html" class="el_package">com.erval.argos.mongo</a> &gt; <span class="el_source">MongoDeviceRepositoryAdapter.java</span></div><h1>MongoDeviceRepositoryAdapter.java</h1><pre class="source lang-java linenums">package com.erval.argos.mongo;
+
+import com.erval.argos.core.application.PageRequest;
+import com.erval.argos.core.application.PageResult;
+import com.erval.argos.core.application.SortDirection;
+import com.erval.argos.core.application.port.in.queries.DeviceQueryUseCase;
+import com.erval.argos.core.application.port.out.DeviceRepositoryPort;
+import com.erval.argos.core.domain.device.Device;
+import com.erval.argos.mongo.model.DeviceDocument;
+import com.erval.argos.mongo.repositories.DeviceMongoRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.stereotype.Component;
+
+import java.util.List;
+import java.util.Optional;
+
+/**
+ * MongoDB-backed adapter implementing {@link DeviceRepositoryPort}.
+ * &lt;p&gt;
+ * Responsibilities include:
+ * &lt;ul&gt;
+ * &lt;li&gt;translating domain filters and pagination into Mongo queries&lt;/li&gt;
+ * &lt;li&gt;converting between documents and domain aggregates&lt;/li&gt;
+ * &lt;li&gt;delegating persistence to Spring Data repositories&lt;/li&gt;
+ * &lt;/ul&gt;
+ */
+@Component
+@RequiredArgsConstructor
+public class MongoDeviceRepositoryAdapter implements DeviceRepositoryPort {
+
+    private final DeviceMongoRepository repo;
+    private final MongoTemplate mongoTemplate;
+
+    /**
+     * Deletes a device by id, ignoring missing rows.
+     *
+     * @param id device identifier
+     */
+    @Override
+    public void deleteById(String id) {
+<span class="fc" id="L47">        repo.deleteById(id);</span>
+<span class="fc" id="L48">    }</span>
+
+    /**
+     * Retrieves all devices using paging and sorting.
+     *
+     * @param pageRequest paging and sorting instructions
+     * @return paged devices
+     */
+    @Override
+    public PageResult&lt;Device&gt; findAll(PageRequest pageRequest) {
+<span class="fc" id="L58">        Pageable pageable = org.springframework.data.domain.PageRequest.of(</span>
+<span class="fc" id="L59">                pageRequest.page(),</span>
+<span class="fc" id="L60">                pageRequest.size(),</span>
+<span class="pc bpc" id="L61" title="1 of 2 branches missed.">                pageRequest.direction() == SortDirection.ASC ? Sort.Direction.ASC : Sort.Direction.DESC,</span>
+<span class="pc bpc" id="L62" title="3 of 4 branches missed.">                pageRequest.sortBy() != null &amp;&amp; !pageRequest.sortBy().isBlank() ? pageRequest.sortBy() : &quot;name&quot;);</span>
+
+<span class="fc" id="L64">        Page&lt;DeviceDocument&gt; page = repo.findAll(pageable);</span>
+<span class="fc" id="L65">        List&lt;Device&gt; content = page.getContent().stream()</span>
+<span class="fc" id="L66">                .map(DeviceDocument::toDomain)</span>
+<span class="fc" id="L67">                .toList();</span>
+
+<span class="fc" id="L69">        return new PageResult&lt;&gt;(content, page.getTotalElements(), page.getNumber(), page.getSize());</span>
+    }
+
+    /**
+     * Applies filtering, sorting, and pagination in MongoDB, returning a typed
+     * page.
+     * &lt;p&gt;
+     * When the filter is {@code null}, all devices are considered.
+     * &lt;p&gt;
+     * Sort defaults to {@code name} in descending order when a field is not
+     * provided.
+     *
+     * @param filter      constraints such as building or activation status
+     * @param pageRequest paging and sorting information from the caller
+     * @return a page result with content and total count
+     */
+    @Override
+    public PageResult&lt;Device&gt; findByFilter(DeviceQueryUseCase.DeviceFilter filter, PageRequest pageRequest) {
+<span class="fc" id="L87">        Query query = new Query();</span>
+
+<span class="pc bpc" id="L89" title="1 of 2 branches missed.">        if (filter != null) {</span>
+<span class="pc bpc" id="L90" title="2 of 4 branches missed.">            if (filter.building() != null &amp;&amp; !filter.building().isBlank()) {</span>
+<span class="fc" id="L91">                query.addCriteria(Criteria.where(&quot;building&quot;).is(filter.building()));</span>
+            }
+<span class="pc bpc" id="L93" title="3 of 4 branches missed.">            if (filter.room() != null &amp;&amp; !filter.room().isBlank()) {</span>
+<span class="nc" id="L94">                query.addCriteria(Criteria.where(&quot;room&quot;).is(filter.room()));</span>
+            }
+<span class="pc bpc" id="L96" title="1 of 2 branches missed.">            if (filter.type() != null) {</span>
+<span class="nc" id="L97">                query.addCriteria(Criteria.where(&quot;type&quot;).is(filter.type()));</span>
+            }
+<span class="pc bpc" id="L99" title="1 of 2 branches missed.">            if (filter.active() != null) {</span>
+<span class="fc" id="L100">                query.addCriteria(Criteria.where(&quot;active&quot;).is(filter.active()));</span>
+            }
+        }
+
+<span class="fc" id="L104">        Sort sort = Sort.by(</span>
+<span class="pc bpc" id="L105" title="1 of 2 branches missed.">                pageRequest.direction() == SortDirection.ASC</span>
+<span class="fc" id="L106">                        ? Sort.Direction.ASC</span>
+<span class="pc" id="L107">                        : Sort.Direction.DESC,</span>
+<span class="pc bpc" id="L108" title="2 of 4 branches missed.">                pageRequest.sortBy() != null &amp;&amp; pageRequest.sortBy().isBlank()</span>
+<span class="nc" id="L109">                        ? pageRequest.sortBy()</span>
+<span class="fc" id="L110">                        : &quot;name&quot;);</span>
+
+<span class="fc" id="L112">        org.springframework.data.domain.PageRequest pageable = org.springframework.data.domain.PageRequest</span>
+<span class="fc" id="L113">                .of(pageRequest.page(), pageRequest.size(), sort);</span>
+
+<span class="fc" id="L115">        long total = mongoTemplate.count(query, DeviceDocument.class);</span>
+<span class="fc" id="L116">        List&lt;DeviceDocument&gt; docs = mongoTemplate.find(query.with(pageable), DeviceDocument.class);</span>
+
+<span class="fc" id="L118">        List&lt;Device&gt; content = docs.stream()</span>
+<span class="fc" id="L119">                .map(DeviceDocument::toDomain)</span>
+<span class="fc" id="L120">                .toList();</span>
+
+<span class="fc" id="L122">        return new PageResult&lt;&gt;(content, total, pageRequest.page(), pageRequest.size());</span>
+    }
+
+    /**
+     * Retrieves a device by id.
+     *
+     * @param id device identifier
+     * @return optional device mapped from the stored document
+     */
+    @Override
+    public Optional&lt;Device&gt; findById(String id) {
+<span class="fc" id="L133">        return repo.findById(id).map(DeviceDocument::toDomain);</span>
+    }
+
+    /**
+     * Persists a device aggregate by mapping it to a Mongo document.
+     *
+     * @param device domain aggregate to save
+     * @return saved device with any generated fields applied
+     */
+    @Override
+    public Device save(Device device) {
+<span class="fc" id="L144">        DeviceDocument saved = repo.save(DeviceDocument.fromDomain(device));</span>
+<span class="fc" id="L145">        return saved.toDomain();</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

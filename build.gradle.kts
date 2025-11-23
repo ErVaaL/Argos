@@ -31,8 +31,6 @@ subprojects {
 
         testCompileOnly("org.projectlombok:lombok:1.18.42")
         testAnnotationProcessor("org.projectlombok:lombok:1.18.42")
-
-        testImplementation("org.junit.jupiter:junit-jupiter:5.14.1")
     }
 
     tasks.test {

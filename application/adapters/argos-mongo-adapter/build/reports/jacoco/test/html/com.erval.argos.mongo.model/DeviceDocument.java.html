@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DeviceDocument.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">argos-mongo-adapter</a> &gt; <a href="index.source.html" class="el_package">com.erval.argos.mongo.model</a> &gt; <span class="el_source">DeviceDocument.java</span></div><h1>DeviceDocument.java</h1><pre class="source lang-java linenums">package com.erval.argos.mongo.model;
+
+import com.erval.argos.core.domain.device.Device;
+import com.erval.argos.core.domain.device.DeviceConfig;
+import com.erval.argos.core.domain.device.DeviceType;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+/**
+ * MongoDB representation of a Device aggregate.
+ * &lt;p&gt;
+ * The document mirrors the domain object fields so that mapping is a direct
+ * copy.
+ * &lt;p&gt;
+ * Indexed fields:
+ * &lt;ul&gt;
+ *   &lt;li&gt;{@code name}: unique business key&lt;/li&gt;
+ *   &lt;li&gt;{@code building}: common filter field&lt;/li&gt;
+ * &lt;/ul&gt;
+ */
+@Document(&quot;devices&quot;)
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
+public class DeviceDocument {
+
+    @Id
+    private String id;
+
+    @Indexed(unique = true)
+    private String name;
+    private DeviceType type;
+    @Indexed
+    private String building;
+    private String room;
+    private boolean active;
+    private DeviceConfigDocument config;
+
+    /**
+     * Creates a {@link DeviceDocument} from a domain device.
+     * &lt;p&gt;
+     * Field mapping rules:
+     * &lt;ul&gt;
+     * &lt;li&gt;ids are kept as provided&lt;/li&gt;
+     * &lt;li&gt;boolean flags are copied without transformation&lt;/li&gt;
+     * &lt;li&gt;enum {@code DeviceType} is stored verbatim&lt;/li&gt;
+     * &lt;/ul&gt;
+     *
+     * @param device domain aggregate
+     * @return mongo document ready for persistence
+     */
+    public static DeviceDocument fromDomain(Device device) {
+<span class="fc" id="L57">        DeviceConfig cfg = device.config();</span>
+<span class="fc" id="L58">        return new DeviceDocument(</span>
+<span class="fc" id="L59">                device.id(),</span>
+<span class="fc" id="L60">                device.name(),</span>
+<span class="fc" id="L61">                device.type(),</span>
+<span class="fc" id="L62">                device.building(),</span>
+<span class="fc" id="L63">                device.room(),</span>
+<span class="fc" id="L64">                device.active(),</span>
+<span class="pc bpc" id="L65" title="1 of 2 branches missed.">                cfg != null ? DeviceConfigDocument.fromDomain(cfg) : null);</span>
+    }
+
+    /**
+     * Maps the stored document back to the domain model.
+     *
+     * @return a new {@link Device} populated from document fields
+     */
+    public Device toDomain() {
+<span class="pc bpc" id="L74" title="1 of 2 branches missed.">        DeviceConfig cfg = this.config != null ? this.config.toDomain() : null;</span>
+<span class="fc" id="L75">        return new Device(</span>
+                this.id,
+                this.name,
+                this.type,
+                this.building,
+                this.room,
+                this.active,
+                cfg);
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

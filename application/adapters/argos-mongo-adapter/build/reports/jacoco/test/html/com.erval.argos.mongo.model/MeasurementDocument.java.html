@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MeasurementDocument.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">argos-mongo-adapter</a> &gt; <a href="index.source.html" class="el_package">com.erval.argos.mongo.model</a> &gt; <span class="el_source">MeasurementDocument.java</span></div><h1>MeasurementDocument.java</h1><pre class="source lang-java linenums">package com.erval.argos.mongo.model;
+
+import com.erval.argos.core.domain.measurement.Measurement;
+import com.erval.argos.core.domain.measurement.MeasurementType;
+import java.time.Instant;
+import java.util.List;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.DocumentReference;
+
+/**
+ * MongoDB representation of a Measurement aggregate.
+ * &lt;p&gt;
+ * Stores measurement metadata and values to mirror domain invariants.
+ * &lt;p&gt;
+ * Indexed fields:
+ * &lt;ul&gt;
+ *   &lt;li&gt;{@code deviceId}: frequent lookup and projection target&lt;/li&gt;
+ *   &lt;li&gt;{@code timestamp}: common sort/filter field&lt;/li&gt;
+ * &lt;/ul&gt;
+ * Related documents:
+ * &lt;ul&gt;
+ *   &lt;li&gt;{@code device}: populated via {@code @DocumentReference} lookup&lt;/li&gt;
+ * &lt;/ul&gt;
+ */
+@Data
+@Document(&quot;measurements&quot;)
+@NoArgsConstructor
+@AllArgsConstructor
+public class MeasurementDocument {
+
+    @Id
+    private String id;
+
+    @Indexed
+    private String deviceId;
+    private MeasurementType type;
+    private double value;
+    private int sequenceNumber;
+    @Indexed
+    private Instant timestamp;
+
+    @DocumentReference(lookup = &quot;{ '_id' : ?#{#self.deviceId} }&quot;, lazy = true)
+    private DeviceDocument device;
+    private List&lt;String&gt; tags;
+
+    /**
+     * Creates a {@link MeasurementDocument} from a domain measurement.
+     * &lt;p&gt;
+     * The Mongo driver generates an {@code id}; therefore the id is left
+     * {@code null}.
+     *
+     * @param m domain measurement
+     * @return document ready for persistence
+     */
+    public static MeasurementDocument fromDomain(Measurement m) {
+<span class="fc" id="L62">        return new MeasurementDocument(</span>
+
+<span class="fc" id="L64">            m.id(),</span>
+<span class="fc" id="L65">            m.deviceId(),</span>
+<span class="fc" id="L66">            m.type(),</span>
+<span class="fc" id="L67">            m.value(),</span>
+<span class="fc" id="L68">            m.sequenceNumber(),</span>
+<span class="fc" id="L69">            m.timestamp(),</span>
+            null,
+<span class="fc" id="L71">            m.tags());</span>
+    }
+
+    /**
+     * Converts the document back to the immutable domain aggregate.
+     *
+     * @return a {@link Measurement} constructed from stored fields
+     */
+    public Measurement toDomain() {
+<span class="fc" id="L80">        return new Measurement(</span>
+            id,
+            deviceId,
+            type,
+            value,
+            sequenceNumber,
+            timestamp,
+            tags);
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>
