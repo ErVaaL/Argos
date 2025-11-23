@@ -80,8 +80,9 @@ public record DeviceService(DeviceRepositoryPort repo) implements DeviceCommandU
     /**
      * Finds devices that match the given filter and pagination settings.
      *
-     * @param filter      criteria to apply when searching
-     * @param pageRequest pagination parameters
+     * @param filter      filter criteria (building, room, type, active flag); may
+     *                    be {@code null}
+     * @param pageRequest pagination and sorting parameters
      * @return matching devices wrapped in a paginated result
      */
     @Override
