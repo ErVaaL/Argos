@@ -43,7 +43,7 @@ class MongoRepositoryAdapterIntegrationTest {
 
     @DynamicPropertySource
     static void mongoProps(DynamicPropertyRegistry registry) {
-        registry.add("spring.data.mongodb.uri", mongo::getReplicaSetUrl);
+        registry.add("spring.mongodb.uri", mongo::getReplicaSetUrl);
     }
 
     @Autowired
@@ -136,7 +136,7 @@ class MongoRepositoryAdapterIntegrationTest {
 
     @Test
     void savesAndFindsMeasurementById() {
-        Measurement saved = measurementAdapter.save(measurement("m1", "d1", MeasurementType.TEMP, Instant.now()));
+        Measurement saved = measurementAdapter.save(measurement(Instant.now()));
 
         assertThat(measurementAdapter.findById(saved.id())).isPresent();
     }
@@ -200,7 +200,7 @@ class MongoRepositoryAdapterIntegrationTest {
 
     @Test
     void deletesMeasurementById() {
-        measurementAdapter.save(measurement("m1", "d1", MeasurementType.TEMP, Instant.now()));
+        measurementAdapter.save(measurement(Instant.now()));
 
         measurementAdapter.deleteById("m1");
 
@@ -236,8 +236,8 @@ class MongoRepositoryAdapterIntegrationTest {
         );
     }
 
-    private Measurement measurement(String id, String deviceId, MeasurementType type, Instant ts) {
-        return new Measurement(id, deviceId, type, 1.0, 1, ts, List.of());
+    private Measurement measurement(Instant ts) {
+        return new Measurement("m1", "d1", MeasurementType.TEMP, 1.0, 1, ts, List.of());
     }
 
     @SpringBootApplication(scanBasePackages = "com.erval.argos.mongo")

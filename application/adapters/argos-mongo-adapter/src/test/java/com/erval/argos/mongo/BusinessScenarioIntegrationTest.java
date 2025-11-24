@@ -46,7 +46,7 @@ class BusinessScenarioIntegrationTest {
 
     @DynamicPropertySource
     static void mongoProps(DynamicPropertyRegistry registry) {
-        registry.add("spring.data.mongodb.uri", mongo::getReplicaSetUrl);
+        registry.add("spring.mongodb.uri", mongo::getReplicaSetUrl);
     }
 
     @Autowired
