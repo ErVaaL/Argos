@@ -6,6 +6,7 @@ out/
 bin/
 **/bin/
 !application/argos-core/src/main/java/com/erval/argos/core/application/port/out/
+!argos-v2/services/resource-service/resource-core/src/main/java/com/erval/argos/resource/application/port/out/
 
 # Eclipse
 .classpath
