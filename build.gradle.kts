@@ -32,12 +32,6 @@ subprojects {
     }
 
     dependencies {
-        compileOnly("org.projectlombok:lombok:1.18.42")
-        annotationProcessor("org.projectlombok:lombok:1.18.42")
-
-        testCompileOnly("org.projectlombok:lombok:1.18.42")
-        testAnnotationProcessor("org.projectlombok:lombok:1.18.42")
-
         testImplementation(platform("org.junit:junit-bom:5.10.2"))
         testImplementation("org.junit.jupiter:junit-jupiter")
     }

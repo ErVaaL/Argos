@@ -4,6 +4,7 @@ include(
     ":contracts",
     "services:resource-service:resource-core",
     "services:resource-service:resource-application",
+    "services:resource-service:resource-adapters:grpc",
     "services:resource-service:resource-adapters:mongo",
     "services:resource-service:resource-bootstrap",
     "services:process-service:process-core",

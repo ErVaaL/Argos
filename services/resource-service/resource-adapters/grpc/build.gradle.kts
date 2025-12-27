@@ -3,7 +3,7 @@ plugins {
 }
 
 dependencies {
-    implementation(project(":services:process-service:process-application"))
+    implementation(project(":services:resource-service:resource-application"))
     api(project(":contracts"))
 
     compileOnly("org.projectlombok:lombok:1.18.42")
@@ -11,5 +11,5 @@ dependencies {
 
     testCompileOnly("org.projectlombok:lombok:1.18.42")
     testAnnotationProcessor("org.projectlombok:lombok:1.18.42")
-    implementation("io.grpc:grpc-netty-shaded:1.78.0")
+    implementation("org.springframework:spring-context")
 }
