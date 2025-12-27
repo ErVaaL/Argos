@@ -2,7 +2,6 @@
 .idea/
 *.iml
 *.iws
-out/
 bin/
 **/bin/
 !application/argos-core/src/main/java/com/erval/argos/core/application/port/out/

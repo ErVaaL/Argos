@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package argos.resource.v1;
+
+option java_multiple_files = true;
+option java_package = "com.erval.argos.contracts.resource.v1";
+option java_outer_classname = "ResourceQueryProto";
+
+service ResourceQueryService {
+    rpc GetDevice(GetDeviceRequest) returns (GetDeviceResponse);
+}
+
+message GetDeviceRequest {
+    string device_id = 1;
+}
+
+message GetDeviceResponse {
+    bool found = 1;
+    Device device = 2;
+}
+
+message Device {
+    string id = 1;
+    string name = 2;
+    string type = 3;
+    string building = 4;
+    string room = 5;
+    bool active = 6;
+}
