@@ -8,6 +8,7 @@ option java_outer_classname = "ResourceQueryProto";
 
 service ResourceQueryService {
     rpc GetDevice(GetDeviceRequest) returns (GetDeviceResponse);
+    rpc GetLastMeasurements(GetLastMeasurementsRequest) returns (GetLastMeasurementsResponse);
 }
 
 message GetDeviceRequest {
@@ -26,4 +27,24 @@ message Device {
     string building = 4;
     string room = 5;
     bool active = 6;
+}
+
+message GetLastMeasurementsRequest {
+    string device_id = 1;
+    int32 limit = 2;
+    string to = 3;
+}
+
+message GetLastMeasurementsResponse {
+    repeated Measurement measurements = 1;
+}
+
+message Measurement {
+    string id = 1;
+    string device_id = 2;
+    string type = 3;
+    double value = 4;
+    int32 sequence_number = 5;
+    string timestamp = 6;
+    repeated string tags = 7;
 }
