@@ -30,7 +30,7 @@ services:
       - traefik.enable=true
       - traefik.http.routers.resource.rule=PathPrefix(`/resource`)
       - traefik.http.routers.resource.middlewares=resource-stripprefix
-      - traefik.http.middlewares.resource-stripprefix.stripprefix.prefixes=/resource
+      - traefik.http.middlewares.resource-stripprefix.stripprefix.prefixes=/api/resource
       - traefik.http.services.resource.loadbalancer.server.port=8081
 
   process:
@@ -52,7 +52,7 @@ services:
       - traefik.enable=true
       - traefik.http.routers.process.rule=PathPrefix(`/process`)
       - traefik.http.routers.process.middlewares=process-stripprefix
-      - traefik.http.middlewares.process-stripprefix.stripprefix.prefixes=/process
+      - traefik.http.middlewares.process-stripprefix.stripprefix.prefixes=/api/process
       - traefik.http.services.process.loadbalancer.server.port=8082
 
   report:
@@ -75,7 +75,7 @@ services:
       - traefik.enable=true
       - traefik.http.routers.report.rule=PathPrefix(`/report`)
       - traefik.http.routers.report.middlewares=report-stripprefix
-      - traefik.http.middlewares.report-stripprefix.stripprefix.prefixes=/report
+      - traefik.http.middlewares.report-stripprefix.stripprefix.prefixes=/api/report
       - traefik.http.services.report.loadbalancer.server.port=8083
 
 networks:
