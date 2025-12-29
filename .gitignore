@@ -33,3 +33,6 @@ Thumbs.db
 **/keys/
 data/reports
 frontend/node_modules
+frontend/remote-report/node_modules
+frontend/remote-query/node_modules
+frontend/host/node_modules
