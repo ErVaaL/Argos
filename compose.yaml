@@ -28,9 +28,14 @@ services:
     networks: [argos_net]
     labels:
       - traefik.enable=true
-      - traefik.http.routers.resource.rule=PathPrefix(`/resource`)
-      - traefik.http.routers.resource.middlewares=resource-stripprefix
+      - traefik.http.routers.resource.rule=PathPrefix(`/api/resource`)
+      - traefik.http.routers.resource.middlewares=resource-stripprefix,resource-cors
       - traefik.http.middlewares.resource-stripprefix.stripprefix.prefixes=/api/resource
+      - traefik.http.middlewares.resource-cors.headers.accesscontrolalloworiginlist=http://127.0.0.1:5173,http://127.0.0.1:5174,http://127.0.0.1:5175,http://localhost:5173,http://localhost:5174,http://localhost:5175
+      - traefik.http.middlewares.resource-cors.headers.accesscontrolallowmethods=GET,POST,PUT,PATCH,DELETE,OPTIONS
+      - traefik.http.middlewares.resource-cors.headers.accesscontrolallowheaders=Authorization,Content-Type
+      - traefik.http.middlewares.resource-cors.headers.accesscontrolallowcredentials=true
+      - traefik.http.middlewares.resource-cors.headers.addvaryheader=true
       - traefik.http.services.resource.loadbalancer.server.port=8081
 
   process:
@@ -50,9 +55,14 @@ services:
     networks: [argos_net]
     labels:
       - traefik.enable=true
-      - traefik.http.routers.process.rule=PathPrefix(`/process`)
-      - traefik.http.routers.process.middlewares=process-stripprefix
+      - traefik.http.routers.process.rule=PathPrefix(`/api/process`)
+      - traefik.http.routers.process.middlewares=process-stripprefix,process-cors
       - traefik.http.middlewares.process-stripprefix.stripprefix.prefixes=/api/process
+      - traefik.http.middlewares.process-cors.headers.accesscontrolalloworiginlist=http://127.0.0.1:5173,http://127.0.0.1:5174,http://127.0.0.1:5175,http://localhost:5173,http://localhost:5174,http://localhost:5175
+      - traefik.http.middlewares.process-cors.headers.accesscontrolallowmethods=GET,POST,PUT,PATCH,DELETE,OPTIONS
+      - traefik.http.middlewares.process-cors.headers.accesscontrolallowheaders=Authorization,Content-Type
+      - traefik.http.middlewares.process-cors.headers.accesscontrolallowcredentials=true
+      - traefik.http.middlewares.process-cors.headers.addvaryheader=true
       - traefik.http.services.process.loadbalancer.server.port=8082
 
   report:
@@ -73,9 +83,14 @@ services:
       - report_data:/data/reports
     labels:
       - traefik.enable=true
-      - traefik.http.routers.report.rule=PathPrefix(`/report`)
-      - traefik.http.routers.report.middlewares=report-stripprefix
+      - traefik.http.routers.report.rule=PathPrefix(`/api/report`)
+      - traefik.http.routers.report.middlewares=report-stripprefix,report-cors
       - traefik.http.middlewares.report-stripprefix.stripprefix.prefixes=/api/report
+      - traefik.http.middlewares.report-cors.headers.accesscontrolalloworiginlist=http://127.0.0.1:5173,http://127.0.0.1:5174,http://127.0.0.1:5175,http://localhost:5173,http://localhost:5174,http://localhost:5175
+      - traefik.http.middlewares.report-cors.headers.accesscontrolallowmethods=GET,POST,PUT,PATCH,DELETE,OPTIONS
+      - traefik.http.middlewares.report-cors.headers.accesscontrolallowheaders=Authorization,Content-Type
+      - traefik.http.middlewares.report-cors.headers.accesscontrolallowcredentials=true
+      - traefik.http.middlewares.report-cors.headers.addvaryheader=true
       - traefik.http.services.report.loadbalancer.server.port=8083
 
 networks:
