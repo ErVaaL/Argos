@@ -32,3 +32,4 @@ Thumbs.db
 # Secrets
 **/keys/
 data/reports
+frontend/node_modules

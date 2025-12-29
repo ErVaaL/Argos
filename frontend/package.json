@@ -1,0 +1,21 @@
+{
+  "name": "argos-frontend",
+  "private": true,
+  "workspaces": [
+    "host",
+    "remote-query",
+    "remote-report"
+  ],
+  "scripts": {
+    "dev": "run-p dev:host dev:query dev:report",
+    "dev:host": "yarn --cwd host dev",
+    "dev:query": "yarn --cwd remote-query dev",
+    "dev:report": "yarn --cwd remote-report dev",
+    "build": "yarn --cwd host lint && yarn --cwd remote-query lint && yarn --cwd remote-report lint && yarn --cwd host build",
+    "lint": "yarn --cwd host lint && yarn --cwd remote-query lint && yarn --cwd remote-report lint"
+  },
+  "devDependencies": {
+    "@originjs/vite-plugin-federation": "^1.4.1",
+    "npm-run-all": "^4.1.5"
+  }
+}
