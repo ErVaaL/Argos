@@ -1,6 +1,10 @@
 import { useEffect, useMemo, useState } from "react";
 import { Device, DeviceType, Page, UpdateDeviceInput } from "../types";
-import { DEVICES_QUERY, UPDATE_DEVICE_MUTATION } from "../lib/queries";
+import {
+  DELETE_DEVICE_MUTATION,
+  DEVICES_QUERY,
+  UPDATE_DEVICE_MUTATION,
+} from "../lib/queries";
 import { gql } from "../lib/gql";
 
 type DevicesResponse = {
@@ -9,6 +13,10 @@ type DevicesResponse = {
 
 type UpdateDeviceResponse = {
   updateDevice: Device;
+};
+
+type DeleteDeviceResponse = {
+  deleteDevice: boolean;
 };
 
 export const useDevices = (args: { gqlUrl: string; token: string | null }) => {
@@ -28,6 +36,8 @@ export const useDevices = (args: { gqlUrl: string; token: string | null }) => {
 
   const [updating, setUpdating] = useState(false);
   const [updateError, setUpdateError] = useState<string | null>(null);
+  const [deleting, setDeleting] = useState(false);
+  const [deleteError, setDeleteError] = useState<string | null>(null);
 
   const filter = useMemo(() => {
     const f: any = {};
@@ -94,6 +104,29 @@ export const useDevices = (args: { gqlUrl: string; token: string | null }) => {
     }
   };
 
+  const deleteDevice = async (id: string) => {
+    setDeleting(true);
+    setDeleteError(null);
+    try {
+      const data = await gql<DeleteDeviceResponse>(
+        gqlUrl,
+        DELETE_DEVICE_MUTATION,
+        { id },
+        token,
+      );
+      if (!data.deleteDevice) {
+        throw new Error("Device could not be deleted");
+      }
+      setItems((prev) => prev.filter((item) => item.id !== id));
+      await refresh(page);
+    } catch (e: any) {
+      setDeleteError(e.message ?? String(e));
+      throw e;
+    } finally {
+      setDeleting(false);
+    }
+  };
+
   return {
     building,
     room,
@@ -106,6 +139,8 @@ export const useDevices = (args: { gqlUrl: string; token: string | null }) => {
     error,
     updating,
     updateError,
+    deleting,
+    deleteError,
     setBuilding,
     setRoom,
     setType,
@@ -113,5 +148,6 @@ export const useDevices = (args: { gqlUrl: string; token: string | null }) => {
     setPage,
     refresh,
     updateDevice,
+    deleteDevice,
   };
 };

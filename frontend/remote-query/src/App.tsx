@@ -34,7 +34,7 @@ export default function App(props: {
     if (selected) void meas.load(0);
   }, [selected?.id]);
 
-  const error = devices.error ?? meas.error;
+  const error = devices.error ?? devices.deleteError ?? meas.error;
 
   return (
     <div className="p-3 space-y-6">
@@ -55,6 +55,23 @@ export default function App(props: {
           selectedId={selected?.id ?? null}
           onSelect={setSelected}
           onEdit={setEditing}
+          onDelete={(device) => {
+            if (!confirm(`Delete device "${device.name}"?`)) return;
+            void devices
+              .deleteDevice(device.id)
+              .then(() => {
+                if (selected?.id === device.id) {
+                  setSelected(null);
+                }
+                if (editing?.id === device.id) {
+                  setEditing(null);
+                }
+              })
+              .catch(() => {
+                // Error already surfaced in hook state.
+              });
+          }}
+          deleting={devices.deleting}
           onPrev={() => devices.refresh(Math.max(0, devices.page - 1))}
           onNext={() => devices.refresh(devices.page + 1)}
         />

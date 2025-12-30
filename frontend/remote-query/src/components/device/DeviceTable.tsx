@@ -10,6 +10,8 @@ type Props = {
   selectedId: string | null;
   onSelect: (d: Device) => void;
   onEdit: (d: Device) => void;
+  onDelete: (d: Device) => void;
+  deleting: boolean;
   onPrev: () => void;
   onNext: () => void;
 };
@@ -23,6 +25,8 @@ export default function DevicesTable({
   selectedId,
   onSelect,
   onEdit,
+  onDelete,
+  deleting,
   onPrev,
   onNext,
 }: Props) {
@@ -37,7 +41,8 @@ export default function DevicesTable({
               <th>Building</th>
               <th>Room</th>
               <th>Active</th>
-              <th className="rounded-tr-lg">Edit</th>
+              <th>Edit</th>
+              <th className="rounded-tr-lg">Delete</th>
             </tr>
           </thead>
 
@@ -83,13 +88,25 @@ export default function DevicesTable({
                     Edit
                   </button>
                 </td>
+                <td className="px-3 py-3">
+                  <button
+                    className="rounded-md border border-red-200 bg-red-50 px-3 py-1.5 text-xs font-semibold text-red-700 shadow-sm transition hover:bg-red-100 disabled:cursor-not-allowed disabled:opacity-60"
+                    disabled={deleting}
+                    onClick={(event) => {
+                      event.stopPropagation();
+                      onDelete(d);
+                    }}
+                  >
+                    {deleting ? "Deleting…" : "Delete"}
+                  </button>
+                </td>
               </tr>
             ))}
 
             {!loading && devices.length === 0 && (
               <tr>
                 <td
-                  colSpan={6}
+                  colSpan={7}
                   className="px-3 py-8 text-center text-sm text-slate-500"
                 >
                   No devices found

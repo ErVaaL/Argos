@@ -27,6 +27,7 @@ message Device {
     string building = 4;
     string room = 5;
     bool active = 6;
+    bool deleted = 7;
 }
 
 message GetLastMeasurementsRequest {

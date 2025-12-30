@@ -46,3 +46,9 @@ export const UPDATE_DEVICE_MUTATION = /* GraphQL */ `
     }
   }
 `;
+
+export const DELETE_DEVICE_MUTATION = /* GraphQL */ `
+  mutation DeleteDevice($id: ID!) {
+    deleteDevice(id: $id)
+  }
+`;
