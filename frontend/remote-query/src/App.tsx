@@ -3,11 +3,12 @@ import "./index.css";
 import { useDevices } from "./hooks/useDevices";
 import { Device } from "./types";
 import { useMeasurements } from "./hooks/useMeasurements";
-import { ErrorBanner } from "./components/ErrorBanner";
-import { DeviceFilters } from "./components/DeviceFilters";
-import DevicesTable from "./components/DeviceTable";
-import MeasurementsFilters from "./components/MeasurementsFilters";
-import MeasurementsTable from "./components/MeasurementTable";
+import { ErrorBanner } from "./components/common/ErrorBanner";
+import { DeviceFilters } from "./components/device/DeviceFilters";
+import DevicesTable from "./components/device/DeviceTable";
+import EditDeviceModal from "./components/device/EditDeviceModal";
+import MeasurementsFilters from "./components/measurement/MeasurementsFilters";
+import MeasurementsTable from "./components/measurement/MeasurementTable";
 
 export default function App(props: {
   apiBase?: string;
@@ -20,6 +21,7 @@ export default function App(props: {
 
   const devices = useDevices({ gqlUrl, token });
   const [selected, setSelected] = useState<Device | null>(null);
+  const [editing, setEditing] = useState<Device | null>(null);
 
   const meas = useMeasurements({
     gqlUrl,
@@ -52,6 +54,7 @@ export default function App(props: {
           loading={devices.loading}
           selectedId={selected?.id ?? null}
           onSelect={setSelected}
+          onEdit={setEditing}
           onPrev={() => devices.refresh(Math.max(0, devices.page - 1))}
           onNext={() => devices.refresh(devices.page + 1)}
         />
@@ -81,6 +84,25 @@ export default function App(props: {
           onNext={() => meas.load(meas.page + 1)}
         />
       </section>
+
+      <EditDeviceModal
+        device={editing}
+        saving={devices.updating}
+        error={devices.updateError}
+        onClose={() => setEditing(null)}
+        onSave={async (input) => {
+          if (!editing) return;
+          try {
+            const updated = await devices.updateDevice(editing.id, input);
+            setEditing(null);
+            if (selected?.id === updated.id) {
+              setSelected(updated);
+            }
+          } catch {
+            // Error already surfaced in hook state.
+          }
+        }}
+      />
     </div>
   );
 }

@@ -1,5 +1,5 @@
-import type { Device } from "../types";
-import { Pagination } from "./Pagination";
+import type { Device } from "../../types";
+import { Pagination } from "../common/Pagination";
 
 type Props = {
   devices: Device[];
@@ -9,6 +9,7 @@ type Props = {
   loading: boolean;
   selectedId: string | null;
   onSelect: (d: Device) => void;
+  onEdit: (d: Device) => void;
   onPrev: () => void;
   onNext: () => void;
 };
@@ -21,6 +22,7 @@ export default function DevicesTable({
   loading,
   selectedId,
   onSelect,
+  onEdit,
   onPrev,
   onNext,
 }: Props) {
@@ -34,7 +36,8 @@ export default function DevicesTable({
               <th>Type</th>
               <th>Building</th>
               <th>Room</th>
-              <th className="rounded-tr-lg">Active</th>
+              <th>Active</th>
+              <th className="rounded-tr-lg">Edit</th>
             </tr>
           </thead>
 
@@ -69,13 +72,24 @@ export default function DevicesTable({
                     {d.active ? "Active" : "Inactive"}
                   </span>
                 </td>
+                <td className="px-3 py-3">
+                  <button
+                    className="rounded-md border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50"
+                    onClick={(event) => {
+                      event.stopPropagation();
+                      onEdit(d);
+                    }}
+                  >
+                    Edit
+                  </button>
+                </td>
               </tr>
             ))}
 
             {!loading && devices.length === 0 && (
               <tr>
                 <td
-                  colSpan={5}
+                  colSpan={6}
                   className="px-3 py-8 text-center text-sm text-slate-500"
                 >
                   No devices found

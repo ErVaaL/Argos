@@ -33,3 +33,16 @@ export const MEASUREMENTS_QUERY = /* GraphQL */ `
     }
   }
 `;
+
+export const UPDATE_DEVICE_MUTATION = /* GraphQL */ `
+  mutation UpdateDevice($id: ID!, $input: UpdateDeviceInput!) {
+    updateDevice(id: $id, input: $input) {
+      id
+      name
+      type
+      building
+      room
+      active
+    }
+  }
+`;

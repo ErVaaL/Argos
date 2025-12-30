@@ -1,4 +1,4 @@
-import type { DeviceType } from "../types";
+import { DeviceType } from "../../types";
 
 type Props = {
   state: {

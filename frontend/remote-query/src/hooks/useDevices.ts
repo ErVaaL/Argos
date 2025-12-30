@@ -1,10 +1,14 @@
 import { useEffect, useMemo, useState } from "react";
-import { Device, DeviceType, Page } from "../types";
-import { DEVICES_QUERY } from "../lib/queries";
+import { Device, DeviceType, Page, UpdateDeviceInput } from "../types";
+import { DEVICES_QUERY, UPDATE_DEVICE_MUTATION } from "../lib/queries";
 import { gql } from "../lib/gql";
 
 type DevicesResponse = {
   devices: Page<Device>;
+};
+
+type UpdateDeviceResponse = {
+  updateDevice: Device;
 };
 
 export const useDevices = (args: { gqlUrl: string; token: string | null }) => {
@@ -21,6 +25,9 @@ export const useDevices = (args: { gqlUrl: string; token: string | null }) => {
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  const [updating, setUpdating] = useState(false);
+  const [updateError, setUpdateError] = useState<string | null>(null);
 
   const filter = useMemo(() => {
     const f: any = {};
@@ -63,6 +70,30 @@ export const useDevices = (args: { gqlUrl: string; token: string | null }) => {
     refresh(0);
   }, [gqlUrl, token, filter]);
 
+  const updateDevice = async (id: string, input: UpdateDeviceInput) => {
+    setUpdating(true);
+    setUpdateError(null);
+    try {
+      const data = await gql<UpdateDeviceResponse>(
+        gqlUrl,
+        UPDATE_DEVICE_MUTATION,
+        { id, input },
+        token,
+      );
+      const updated = data.updateDevice;
+      setItems((prev) =>
+        prev.map((item) => (item.id === updated.id ? updated : item)),
+      );
+      await refresh(page);
+      return updated;
+    } catch (e: any) {
+      setUpdateError(e.message ?? String(e));
+      throw e;
+    } finally {
+      setUpdating(false);
+    }
+  };
+
   return {
     building,
     room,
@@ -73,11 +104,14 @@ export const useDevices = (args: { gqlUrl: string; token: string | null }) => {
     page,
     loading,
     error,
+    updating,
+    updateError,
     setBuilding,
     setRoom,
     setType,
     setActiveOnly,
     setPage,
     refresh,
+    updateDevice,
   };
 };

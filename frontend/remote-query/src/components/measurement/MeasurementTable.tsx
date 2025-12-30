@@ -1,5 +1,5 @@
-import type { Measurement } from "../types";
-import { Pagination } from "./Pagination";
+import type { Measurement } from "../../types";
+import { Pagination } from "../common/Pagination";
 
 type Props = {
   selectedName: string | null;

@@ -1,4 +1,4 @@
-import type { MeasurementType } from "../types";
+import type { MeasurementType } from "../../types";
 
 type Props = {
   disabled: boolean;

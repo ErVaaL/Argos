@@ -10,6 +10,14 @@ export type Device = {
   active: boolean;
 };
 
+export type UpdateDeviceInput = {
+  name?: string;
+  type?: DeviceType;
+  building?: string;
+  room?: string;
+  active?: boolean;
+};
+
 export type Measurement = {
   id: string;
   deviceId: string;
