@@ -1,4 +1,4 @@
-package com.erval.argos.resource.config;
+package com.erval.argos.report.bootstrap.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,10 +10,6 @@ import org.springframework.security.web.SecurityFilterChain;
 
 import lombok.RequiredArgsConstructor;
 
-/**
- * Basic security configuration allowing open access to GraphQL and internal
- * token endpoint.
- */
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
@@ -26,12 +22,8 @@ public class SecurityConfig {
         .csrf(AbstractHttpConfigurer::disable)
         .authorizeHttpRequests(auth -> auth
             .requestMatchers("/actuator/health").permitAll()
-            .requestMatchers("/graphql").permitAll()
             .anyRequest().authenticated())
-        .oauth2ResourceServer(oauth2 -> oauth2.jwt(jwt -> {
-        }))
-        .formLogin(AbstractHttpConfigurer::disable)
-        .build();
+        .oauth2ResourceServer(oauth -> oauth.jwt(jwt -> {
+        })).build();
   }
-
 }
