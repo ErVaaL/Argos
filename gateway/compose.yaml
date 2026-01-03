@@ -16,7 +16,9 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     networks:
-      - argos_net
+      argos_net:
+        aliases:
+          - auth.localhost
 
 networks:
   argos_net:

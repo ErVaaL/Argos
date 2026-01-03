@@ -16,6 +16,27 @@ services:
       - "15672:15672"
     networks: [argos_net]
 
+  keycloak:
+    image: quay.io/keycloak/keycloak:24.0
+    command: start-dev --import-realm
+    container_name: argos-keycloak
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+      KC_PROXY: edge
+      KC_HOSTNAME: auth.localhost
+      KC_HOSTNAME_STRICT: "true"
+      KC_HTTP_ENABLED: "true"
+
+    volumes:
+      - keycloak_data:/opt/keycloak/data
+      - ./keycloak/import:/opt/keycloak/data/import:ro
+    networks: [argos_net]
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.keycloak.rule=Host(`auth.localhost`)
+      - traefik.http.services.keycloak.loadbalancer.server.port=8080
+
   resource:
     build:
       context: .
@@ -95,7 +116,8 @@ services:
 
 networks:
   argos_net:
-    external: true
+    name: argos_net
 volumes:
   mongo_data:
   report_data:
+  keycloak_data:

@@ -1,0 +1,48 @@
+{
+  "realm": "argos",
+  "enabled": true,
+
+  "roles": {
+    "realm": [{ "name": "argos_user" }, { "name": "argos_admin" }]
+  },
+
+  "clients": [
+    {
+      "clientId": "argos-frontend",
+      "name": "Argos Frontend",
+      "protocol": "openid-connect",
+      "publicClient": true,
+      "standardFlowEnabled": true,
+      "implicitFlowEnabled": false,
+      "directAccessGrantsEnabled": false,
+      "serviceAccountsEnabled": false,
+
+      "redirectUris": [
+        "http://localhost:5173/*",
+        "http://localhost:5174/*",
+        "http://localhost:5175/*"
+      ],
+      "webOrigins": [
+        "http://localhost:5173",
+        "http://localhost:5174",
+        "http://localhost:5175"
+      ],
+
+      "attributes": {
+        "pkce.code.challenge.method": "S256"
+      }
+    }
+  ],
+
+  "users": [
+    {
+      "username": "admin",
+      "enabled": true,
+      "emailVerified": true,
+      "credentials": [
+        { "type": "password", "value": "admin", "temporary": false }
+      ],
+      "realmRoles": ["argos_admin"]
+    }
+  ]
+}
