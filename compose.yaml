@@ -23,11 +23,11 @@ services:
     environment:
       KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: admin
-      KC_PROXY: edge
+      KC_PROXY_HEADERS: xforwarded
       KC_HOSTNAME: auth.localhost
       KC_HOSTNAME_STRICT: "true"
       KC_HTTP_ENABLED: "true"
-
+      KC_HOSTNAME_STRICT_HTTPS: "false"
     volumes:
       - keycloak_data:/opt/keycloak/data
       - ./keycloak/import:/opt/keycloak/data/import:ro

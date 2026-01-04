@@ -10,6 +10,7 @@ services:
       - --entrypoints.web.address=:80
       - --accesslog=true
       - --log.level=INFO
+      - --entrypoints.web.forwardedheaders.insecure=true
     ports:
       - "80:80"
       - "8088:8080"
