@@ -13,6 +13,7 @@ include(
     ":services:process-service:process-adapters:grpc",
     ":services:process-service:process-adapters:mongo",
     ":services:process-service:process-adapters:rabbitmq",
+    ":services:process-service:process-adapters:excel",
     ":services:process-service:process-bootstrap",
 
     ":services:report-service:report-core",
