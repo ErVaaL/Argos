@@ -1,0 +1,9 @@
+[submodule "frontend/host"]
+	path = frontend/host
+	url = git@github.com:ErVaaL/argos-ui-host.git
+[submodule "frontend/remote-query"]
+	path = frontend/remote-query
+	url = git@github.com:ErVaaL/argos-query-ui.git
+[submodule "frontend/remote-report"]
+	path = frontend/remote-report
+	url = git@github.com:ErVaaL/argos-report-ui.git

@@ -1,0 +1,14 @@
+{
+  "name": "argos-frontend",
+  "private": true,
+  "packageManager": "yarn@1.22.22",
+  "scripts": {
+    "install:all": "yarn --cwd host install && yarn --cwd remote-query install && yarn --cwd remote-report install",
+    "dev": "concurrently -n host,query,report -c auto \"yarn --cwd host dev\" \"yarn --cwd remote-query dev\" \"yarn --cwd remote-report dev\"",
+    "build": "yarn --cwd remote-query build && yarn --cwd remote-report build && yarn --cwd host build",
+    "preview": "concurrently -n host,query,report -c auto \"yarn --cwd host preview\" \"yarn --cwd remote-query preview\" \"yarn --cwd remote-report preview\""
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  }
+}
