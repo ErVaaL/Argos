@@ -1,0 +1,6 @@
+{
+  "apiBaseUrl": "/api/v1",
+  "remoteQueryUrl": "http://query.argos.localhost/remoteEntry.js",
+  "remoteReportUrl": "http://report.argos.localhost/remoteEntry.js",
+  "assetPrefix": "/"
+}

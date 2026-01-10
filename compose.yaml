@@ -1,25 +1,44 @@
 services:
+  traefik:
+    image: traefik:v3.6.5
+    container_name: argos-traefik
+    command:
+      - --api.dashboard=true
+      - --api.insecure=true
+      - --providers.docker=true
+      - --providers.docker.exposedbydefault=false
+      - --entrypoints.web.address=:80
+      - --accesslog=true
+      - --log.level=INFO
+      - --entrypoints.web.forwardedheaders.insecure=true
+    ports:
+      - "80:80"
+      - "8088:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      - argos_net
+
   mongo:
     image: mongo:8
     container_name: argos-mongo
-    ports:
-      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
     volumes:
       - mongo_data:/data/db
     networks: [argos_net]
 
   rabbitmq:
     image: rabbitmq:4.2.2-management
-    container_name: argos-rabbit
     ports:
-      - "5672:5672"
       - "15672:15672"
     networks: [argos_net]
 
   keycloak:
     image: quay.io/keycloak/keycloak:24.0
-    command: start-dev --import-realm
     container_name: argos-keycloak
+    command: start-dev --import-realm
     environment:
       KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: admin
@@ -38,85 +57,97 @@ services:
       - traefik.http.services.keycloak.loadbalancer.server.port=8080
 
   resource:
-    build:
-      context: .
-      dockerfile: services/resource-service/resource-bootstrap/Dockerfile
+    image: ghcr.io/ervaal/argos-resource-service:main
     container_name: argos-resource
     environment:
-      SPRING_MONGODB_URI: ${RESOURCE_MONGO_URI}
+      SPRING_MONGODB_URI: mongodb://root:root@mongo:27017/argos_resource?authSource=admin
       ARGOS_RESOURCE_GRPC_PORT: 9091
-    depends_on: [mongo]
+      SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI: http://keycloak:8080/realms/argos
+    depends_on: [mongo, keycloak]
     networks: [argos_net]
     labels:
       - traefik.enable=true
-      - traefik.http.routers.resource.rule=PathPrefix(`/api/resource`)
-      - traefik.http.routers.resource.middlewares=resource-stripprefix,resource-cors
-      - traefik.http.middlewares.resource-stripprefix.stripprefix.prefixes=/api/resource
-      - traefik.http.middlewares.resource-cors.headers.accesscontrolalloworiginlist=http://127.0.0.1:5173,http://127.0.0.1:5174,http://127.0.0.1:5175,http://localhost:5173,http://localhost:5174,http://localhost:5175
-      - traefik.http.middlewares.resource-cors.headers.accesscontrolallowmethods=GET,POST,PUT,PATCH,DELETE,OPTIONS
-      - traefik.http.middlewares.resource-cors.headers.accesscontrolallowheaders=Authorization,Content-Type
-      - traefik.http.middlewares.resource-cors.headers.accesscontrolallowcredentials=true
-      - traefik.http.middlewares.resource-cors.headers.addvaryheader=true
+      - traefik.http.routers.resource.rule=PathPrefix(`/api/v1/resource`)
+      - traefik.http.routers.resource.middlewares=resource-stripprefix
+      - traefik.http.middlewares.resource-stripprefix.stripprefix.prefixes=/api/v1/resource
       - traefik.http.services.resource.loadbalancer.server.port=8081
 
   process:
-    build:
-      context: .
-      dockerfile: services/process-service/process-bootstrap/Dockerfile
+    image: ghcr.io/ervaal/argos-process-service:main
     container_name: argos-process
     environment:
-      SPRING_MONGODB_URI: ${PROCESS_MONGO_URI}
+      SPRING_MONGODB_URI: mongodb://root:root@mongo:27017/argos_process?authSource=admin
       ARGOS_RESOURCE_GRPC_HOST: resource
       ARGOS_RESOURCE_GRPC_PORT: 9091
       SPRING_RABBITMQ_HOST: rabbitmq
       SPRING_RABBITMQ_PORT: 5672
       SPRING_RABBITMQ_USERNAME: guest
       SPRING_RABBITMQ_PASSWORD: guest
-    depends_on: [mongo, resource, rabbitmq]
+      SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI: http://keycloak:8080/realms/argos
+    depends_on: [mongo, rabbitmq, resource, keycloak]
     networks: [argos_net]
     labels:
       - traefik.enable=true
-      - traefik.http.routers.process.rule=PathPrefix(`/api/process`)
-      - traefik.http.routers.process.middlewares=process-stripprefix,process-cors
-      - traefik.http.middlewares.process-stripprefix.stripprefix.prefixes=/api/process
-      - traefik.http.middlewares.process-cors.headers.accesscontrolalloworiginlist=http://127.0.0.1:5173,http://127.0.0.1:5174,http://127.0.0.1:5175,http://localhost:5173,http://localhost:5174,http://localhost:5175
-      - traefik.http.middlewares.process-cors.headers.accesscontrolallowmethods=GET,POST,PUT,PATCH,DELETE,OPTIONS
-      - traefik.http.middlewares.process-cors.headers.accesscontrolallowheaders=Authorization,Content-Type
-      - traefik.http.middlewares.process-cors.headers.accesscontrolallowcredentials=true
-      - traefik.http.middlewares.process-cors.headers.addvaryheader=true
+      - traefik.http.routers.process.rule=PathPrefix(`/api/v1/process`)
+      - traefik.http.routers.process.middlewares=process-stripprefix
+      - traefik.http.middlewares.process-stripprefix.stripprefix.prefixes=/api/v1/process
       - traefik.http.services.process.loadbalancer.server.port=8082
 
   report:
-    build:
-      context: .
-      dockerfile: services/report-service/report-bootstrap/Dockerfile
+    image: ghcr.io/ervaal/argos-report-service:main
     container_name: argos-report
     environment:
-      SPRING_MONGODB_URI: ${REPORT_MONGO_URI}
+      SPRING_MONGODB_URI: mongodb://root:root@mongo:27017/argos_report?authSource=admin
       ARGOS_RESOURCE_GRPC_HOST: resource
       ARGOS_RESOURCE_GRPC_PORT: 9091
       SPRING_RABBITMQ_HOST: rabbitmq
       SPRING_RABBITMQ_PORT: 5672
       ARGOS_REPORT_STORAGE_DIR: /data/reports
-    depends_on: [mongo, resource, rabbitmq]
+      SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI: http://keycloak:8080/realms/argos
+    depends_on: [mongo, rabbitmq, resource, keycloak]
     networks: [argos_net]
     volumes:
       - report_data:/data/reports
     labels:
       - traefik.enable=true
-      - traefik.http.routers.report.rule=PathPrefix(`/api/report`)
-      - traefik.http.routers.report.middlewares=report-stripprefix,report-cors
-      - traefik.http.middlewares.report-stripprefix.stripprefix.prefixes=/api/report
-      - traefik.http.middlewares.report-cors.headers.accesscontrolalloworiginlist=http://127.0.0.1:5173,http://127.0.0.1:5174,http://127.0.0.1:5175,http://localhost:5173,http://localhost:5174,http://localhost:5175
-      - traefik.http.middlewares.report-cors.headers.accesscontrolallowmethods=GET,POST,PUT,PATCH,DELETE,OPTIONS
-      - traefik.http.middlewares.report-cors.headers.accesscontrolallowheaders=Authorization,Content-Type
-      - traefik.http.middlewares.report-cors.headers.accesscontrolallowcredentials=true
-      - traefik.http.middlewares.report-cors.headers.addvaryheader=true
+      - traefik.http.routers.report.rule=PathPrefix(`/api/v1/report`)
+      - traefik.http.routers.report.middlewares=report-stripprefix
+      - traefik.http.middlewares.report-stripprefix.stripprefix.prefixes=/api/v1/report
       - traefik.http.services.report.loadbalancer.server.port=8083
+
+  host:
+    image: ghcr.io/ervaal/argos-host:main
+    container_name: argos-host
+    networks: [argos_net]
+    volumes:
+      - ./frontend/config/host.config.json:/usr/share/nginx/html/config.json:ro
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.host.rule=Host(`argos.localhost`)
+      - traefik.http.services.host.loadbalancer.server.port=80
+
+  remote-query:
+    image: ghcr.io/ervaal/argos-remote-query:main
+    container_name: argos-remote-query
+    networks: [argos_net]
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.remote-query.rule=Host(`query.argos.localhost`)
+      - traefik.http.services.remote-query.loadbalancer.server.port=80
+
+  remote-report:
+    image: ghcr.io/ervaal/argos-remote-report:main
+    container_name: argos-remote-report
+    networks: [argos_net]
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.remote-report.rule=Host(`report.argos.localhost`)
+      - traefik.http.services.remote-report.loadbalancer.server.port=80
 
 networks:
   argos_net:
     name: argos_net
+
 volumes:
   mongo_data:
   report_data:
