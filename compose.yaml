@@ -78,12 +78,6 @@ services:
     image: ghcr.io/ervaal/argos-process-service:main
     container_name: argos-process
     environment:
-      LOGGING_LEVEL_COM_ERVAL_ARGOS: DEBUG
-      LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_AMQP: DEBUG
-      LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_AMQP_RABBIT_LISTENER: DEBUG
-      LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_RABBIT: DEBUG
-      LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_MESSAGING: DEBUG
-      LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_AMQP_SUPPORT_CONVERTER: DEBUG
       SPRING_MONGODB_URI: mongodb://root:root@mongo:27017/argos_process?authSource=admin
       ARGOS_RESOURCE_GRPC_HOST: resource
       ARGOS_RESOURCE_GRPC_PORT: 9091
@@ -108,8 +102,6 @@ services:
     container_name: argos-report
     user: "100:101"
     environment:
-      LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_AMQP: DEBUG
-      LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_RABBIT: DEBUG
       SPRING_MONGODB_URI: mongodb://root:root@mongo:27017/argos_report?authSource=admin
       ARGOS_RESOURCE_GRPC_HOST: resource
       ARGOS_RESOURCE_GRPC_PORT: 9091
