@@ -1,62 +1,55 @@
 # Argos
 
-Lightweight IoT telemetry stack: domain layer, application services, MongoDB adapters, and a GraphQL API (with a small internal REST token endpoint) for managing devices and measurements.
+Microservice + microfrontend stack for Argos, orchestrated with Docker Compose.
 
 ## System requirements
-- Java 21 (Java 17+ works; project toolchain targets 21)
-- Gradle (wrapper provided: `./gradlew`)
-- MongoDB 8 (see `run-mongo.sh` for a quick local instance)
+- Docker (with Compose plugin)
 
-## Setup and installation
+## Quick start (full stack)
 ```bash
-git clone <repo-url>
-cd Argos
-
-# Optional: start Mongo locally
-./run-mongo.sh
-
-# Or:
-docker run -d -p 27017:27017 --name argos-mongo -e MONGO_INITDB_DATABASE=argos mongo:8.0
-
-# Build and run tests
-./gradlew test
-
-# Build and run jacoco test
-./gradlew jacocoTestReport
+docker compose up -d
 ```
 
-## Configuration
-- Primary config file: `public-services/argos-api/src/main/resources/application.yaml`.
-- Example properties (if you prefer `.properties`):
-  ```
-  spring.data.mongodb.uri=mongodb://root:rootpass@localhost:27017/argos?authSource=admin
-  internal.oauth.server.issuer=argos
-  internal.oauth.clients.mockservice1.secret=somesecret
-  internal.oauth.clients.mockservice1.scopes=SCOPE_SEND_INFORMATION
-  ```
-- Internal OAuth keys are loaded from classpath PEMs (`application/adapters/argos-m2m-security/src/main/resources/keys/internal-oauth-*.pem`); ensure they exist or point to your own.
+## OR for first run:
+```bash
+docker compose up -d --pull always
+```
 
-## Running the application
-- With Gradle: `./gradlew :public-services:argos-api:bootRun` (or run `ArgosApiApplication` from your IDE).
-- With built JAR: `./gradlew :public-services:argos-api:bootJar` and then `java -jar public-services/argos-api/build/libs/argos-api-0.0.1-SNAPSHOT.jar` (ensure dependencies are available if not building a fat jar).
+Traefik routes everything under `*.localhost` (RFC 6761). If your OS does not resolve these automatically, add the hosts to your local DNS or `/etc/hosts`.
 
-## API endpoints
-- GraphQL: `POST /graphql`
-  - Queries: `devices(filter, page)`, `measurements(filter, page)`
-  - Mutations: `createDevice`, `updateDevice`, `deleteDevice`, `createMeasurement`, `deleteMeasurement`
-  - Schema: `public-services/argos-api/src/main/resources/graphql/schema.graphqls`
-- REST (internal token): `POST /internal/oauth/token`
-  - Form data: `grant_type=client_credentials`, optional `scope=...`
-  - Auth: `Authorization: Basic <base64(clientId:secret)>`
+## Services (compose.yaml)
+- Traefik: `http://localhost` (edge) and dashboard at `http://localhost:8088`
+- Keycloak: `http://auth.localhost` (admin/admin)
+- MongoDB: internal only, volume `mongo_data`
+- RabbitMQ: `http://localhost:15672` (guest/guest)
+- Resource service: `http://localhost/api/v1/resource/*`
+- Process service: `http://localhost/api/v1/process/*`
+- Report service: `http://localhost/api/v1/report/*`
+- Host (shell): `http://argos.localhost`
+- Remote Query MFE: `http://query.argos.localhost`
+- Remote Report MFE: `http://report.argos.localhost`
 
-## Tests and coverage
-- Run tests: `./gradlew test`
-- Generate JaCoCo reports: `./gradlew test jacocoTestReport`
-- HTML reports:
-  - `application/argos-core/build/reports/jacoco/test/html/index.html`
-  - `application/argos-application/build/reports/jacoco/test/html/index.html`
-  - `application/adapters/argos-mongo-adapter/build/reports/jacoco/test/html/index.html`
+## Frontend-only compose (frontend/compose.frontend.yaml)
+Use this if you are iterating on the MFEs without the full backend stack:
+```bash
+cd frontend
+docker compose -f compose.frontend.yaml up -d
+```
 
-## MongoDB helper
-- Local Mongo: Run script `./run-mongo.sh` to start a Mongo container or just copy the docker command inside to start it manually.
-- Default URI base used in config examples: `mongodb://localhost:27017/argos`
+Frontend URLs:
+- Host: `http://localhost:8080`
+- Remote Query: `http://localhost:8081`
+- Remote Report: `http://localhost:8082`
+
+Configuration for the host shell lives at `frontend/config/host.config.json`.
+
+## Keycloak realm import
+The realm import used in compose is `keycloak/import/argos-realm.json`. It configures:
+- Realm: `argos`
+- Frontend client: `argos-frontend` (public client, PKCE)
+- Admin user: `admin` / `admin`
+
+## Data volumes
+- `mongo_data` for MongoDB
+- `report_data` for generated reports
+- `keycloak_data` for Keycloak
