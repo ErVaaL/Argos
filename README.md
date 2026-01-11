@@ -2,6 +2,22 @@
 
 Microservice + microfrontend stack for Argos, orchestrated with Docker Compose.
 
+## Related repositories:
+
+### Microservices:
+- [Argos Resource](https://github.com/ErVaaL/argos-resource-service)
+- [Argos Process](https://github.com/ErVaaL/argos-process-service)
+- [Argos Report](https://github.com/ErVaaL/argos-report-service)
+
+### Microfrontends:
+- [Argos Host Shell](https://github.com/ErVaaL/argos-ui-host)
+- [Argos Remote Query MFE](https://github.com/ErVaaL/argos-query-ui)
+- [Argos Remote Report MFE](https://github.com/ErVaaL/argos-report-ui)
+
+### Shared & Utils:
+- [Argos Contracts](https://github.com/ErVaaL/argos-contracts)
+- [Argos Frontend Config](https://github.com/ErVaaL/argos-frontend-config)
+
 ## System requirements
 - Docker (with Compose plugin)
 
